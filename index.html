@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en" translate="no">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="google" content="notranslate">
+<meta http-equiv="Content-Language" content="en">
+<meta name="translation-tool" content="no">
+<meta name="yandex" content="noindex, notranslate">
+<meta http-equiv="cache-control" content="no-transform">
+<meta name="format-detection" content="telephone=no">
+<title>Quiz 1 Unit 1 - 8th Grade - Boston 2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+:root{--navy:#0f2044;--gold:#c8992a;--blue:#1d4ed8;--red:#991b1b;--green:#16a34a;--bg:#f5f4ef;--border:#d4d0c8;--text:#1a1a1a;--muted:#6b7280;--lblue:#dbeafe;--lred:#fee2e2;}
+*{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0;}
+html{-webkit-text-size-adjust:100%;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+/* LOGIN */
+#login-screen{min-height:100vh;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;background:var(--navy);padding:16px;}
+.login-card{background:#fff;border-radius:16px;padding:32px 24px;max-width:440px;width:100%;text-align:center;-webkit-box-shadow:0 8px 40px rgba(0,0,0,.45);box-shadow:0 8px 40px rgba(0,0,0,.45);}
+.login-logo{font-size:.7rem;font-weight:700;letter-spacing:.15em;color:var(--navy);text-transform:uppercase;margin-bottom:8px;opacity:.55;}
+.login-title{font-size:1.6rem;font-weight:700;color:var(--navy);margin-bottom:4px;}
+.login-sub{font-size:.85rem;color:var(--muted);margin-bottom:20px;}
+.sec-btns{display:-webkit-box;display:-ms-flexbox;display:flex;gap:10px;margin-bottom:20px;}
+.sec-btns>*{margin-right:10px;}
+.sec-btn{-webkit-box-flex:1;-ms-flex:1;flex:1;padding:14px 8px;border-radius:10px;border:3px solid transparent;cursor:pointer;font-size:.9rem;font-weight:700;font-family:inherit;-webkit-tap-highlight-color:transparent;touch-action:manipulation;transition:.15s;}
+.sec-btn.blue-btn{background:var(--lblue);color:#1e3a6e;border-color:#93c5fd;}
+.sec-btn.blue-btn.selected,.sec-btn.blue-btn:hover{background:#1e3a6e;color:#fff;border-color:#1e3a6e;}
+.sec-btn.red-btn{background:var(--lred);color:#7c1c1c;border-color:#fca5a5;}
+.sec-btn.red-btn.selected,.sec-btn.red-btn:hover{background:#7c1c1c;color:#fff;border-color:#7c1c1c;}
+.login-input{display:block;width:100%;padding:13px 14px;border:2px solid var(--border);border-radius:8px;font-size:16px;font-family:inherit;margin-bottom:12px;outline:none;-webkit-appearance:none;appearance:none;background:#fff;color:#1a1a1a;}
+.login-input:focus{border-color:var(--navy);}
+.login-btn{display:block;width:100%;padding:15px;background:var(--navy);color:var(--gold);border:none;border-radius:8px;font-size:1rem;font-weight:700;font-family:inherit;cursor:pointer;margin-top:8px;-webkit-tap-highlight-color:transparent;touch-action:manipulation;min-height:48px;}
+.login-btn:hover{opacity:.88;}
+#login-err{color:#dc2626;font-size:.82rem;margin-bottom:10px;min-height:20px;}
+/* TIMER */
+#timer-bar{display:none;background:var(--navy);padding:8px 16px;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;position:-webkit-sticky;position:sticky;top:0;z-index:100;-webkit-box-shadow:0 2px 8px rgba(0,0,0,.35);box-shadow:0 2px 8px rgba(0,0,0,.35);}
+#timer-bar.active{display:-webkit-box;display:-ms-flexbox;display:flex;}
+.tbar-label{color:rgba(255,255,255,.45);font-size:.65rem;text-transform:uppercase;letter-spacing:.09em;display:block;}
+#timer-display{font-size:1.3rem;font-weight:700;color:var(--gold);letter-spacing:.05em;}
+#timer-display.warn{color:#ff6b6b;-webkit-animation:pulse 1s infinite;animation:pulse 1s infinite;}
+@-webkit-keyframes pulse{0%,100%{opacity:1}50%{opacity:.45}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.45}}
+#student-info{color:rgba(255,255,255,.82);font-size:.78rem;text-align:right;}
+.ver-badge{display:inline-block;font-size:.65rem;font-weight:700;padding:2px 8px;border-radius:10px;margin-left:5px;}
+.ver-badge.blue{background:#3b82f6;color:#fff;}
+.ver-badge.red{background:#ef4444;color:#fff;}
+/* EXAM */
+#exam-screen{display:none;max-width:900px;margin:0 auto;padding:16px 12px 110px;}
+.tab-row{display:-webkit-box;display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;gap:8px;margin-bottom:18px;}
+.tab-row>*{margin-right:8px;margin-bottom:8px;}
+.tab-btn{padding:11px 22px;border:2px solid var(--navy);border-radius:8px;background:#fff;color:var(--navy);font-size:.9rem;font-weight:600;font-family:inherit;cursor:pointer;min-height:44px;-webkit-tap-highlight-color:transparent;touch-action:manipulation;}
+.tab-btn.active{background:var(--navy);color:var(--gold);}
+.tab-panel{display:none;}.tab-panel.active{display:block;}
+/* CARDS */
+.sc{background:#fff;border-radius:12px;border:1px solid var(--border);padding:20px 16px;margin-bottom:18px;-webkit-box-shadow:0 2px 6px rgba(0,0,0,.04);box-shadow:0 2px 6px rgba(0,0,0,.04);}
+.sc-head{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:flex-start;-ms-flex-align:flex-start;align-items:flex-start;margin-bottom:14px;padding-bottom:12px;border-bottom:2px solid var(--bg);}
+.sc-num{width:36px;height:36px;min-width:36px;background:var(--navy);color:var(--gold);border-radius:8px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;font-weight:700;font-size:1rem;margin-right:12px;-ms-flex-negative:0;flex-shrink:0;}
+.sc-title{font-weight:700;font-size:.92rem;color:var(--navy);line-height:1.4;}
+.sc-pts{font-size:.72rem;color:var(--muted);margin-top:2px;}
+.instr{background:#eef3ff;border:1px solid #c0d4f0;border-radius:8px;padding:10px 12px;font-size:.82rem;color:#1e40af;margin-bottom:14px;line-height:1.55;}
+.wb{background:#fafaf2;border:1.5px dashed var(--gold);border-radius:8px;padding:10px 12px;margin-bottom:14px;}
+.wb-lbl{font-size:.68rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px;}
+.wb-words{font-size:.87rem;color:var(--navy);font-weight:500;line-height:1.65;}
+/* READING TEXT */
+.reading-box{background:#fafaf2;border-left:4px solid var(--gold);border-radius:0 8px 8px 0;padding:14px 16px;font-size:.88rem;line-height:1.75;color:#333;margin-bottom:16px;}
+.reading-box h4{font-size:.82rem;font-weight:700;color:var(--navy);margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em;}
+/* QUESTION ROW */
+.qr{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:flex-start;-ms-flex-align:flex-start;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--bg);}
+.qr:last-child{border-bottom:none;}
+.qnum{width:24px;min-width:24px;font-size:.78rem;font-weight:700;color:var(--gold);padding-top:3px;-ms-flex-negative:0;flex-shrink:0;}
+.qbody{-webkit-box-flex:1;-ms-flex:1;flex:1;min-width:0;}
+.qtxt{font-size:.9rem;color:#333;line-height:1.7;}
+.fill-inp{display:inline-block;width:120px;padding:4px 6px;border:none;border-bottom:2.5px solid var(--navy);background:transparent;font-size:16px;font-family:inherit;color:var(--navy);font-weight:600;text-align:center;vertical-align:middle;margin:0 3px;outline:none;-webkit-appearance:none;appearance:none;max-width:38vw;}
+/* RADIO options */
+.rg{display:-webkit-box;display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;margin-top:8px;}
+.rg>.ropt{margin-right:8px;margin-bottom:8px;}
+.ropt{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;padding:9px 14px;border:2px solid var(--border);border-radius:8px;cursor:pointer;font-size:.88rem;font-family:inherit;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation;min-height:44px;background:#fff;}
+.ropt input{margin-right:6px;cursor:pointer;}
+.ropt:hover{background:#f0f4ff;}
+.ropt.sel{background:var(--navy);color:#fff;border-color:var(--navy);}
+/* MULTI-SELECT (used to/would both-correct) */
+.msopt{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;padding:9px 14px;border:2px solid var(--border);border-radius:8px;cursor:pointer;font-size:.88rem;font-family:inherit;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation;min-height:44px;background:#fff;margin-right:8px;margin-bottom:8px;display:inline-flex;}
+.msopt.sel{background:var(--navy);color:#fff;border-color:var(--navy);}
+.msopt:hover{background:#f0f4ff;}
+.msopt.sel:hover{background:var(--navy);}
+/* T/F */
+.tf-row{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-ms-flex-wrap:wrap;flex-wrap:wrap;padding:9px 0;border-bottom:1px solid var(--bg);}
+.tf-row:last-child{border-bottom:none;}
+.tf-num{width:24px;min-width:24px;font-size:.78rem;font-weight:700;color:var(--gold);-ms-flex-negative:0;flex-shrink:0;}
+.tf-txt{font-size:.88rem;-webkit-box-flex:1;-ms-flex:1;flex:1;min-width:120px;line-height:1.45;padding-right:8px;}
+.tf-btns{display:-webkit-box;display:-ms-flexbox;display:flex;-ms-flex-negative:0;flex-shrink:0;margin-top:4px;}
+.tf-btns>.tf-btn{margin-right:7px;}
+.tf-btn{padding:8px 16px;border:2px solid var(--border);border-radius:7px;font-size:.85rem;font-weight:700;font-family:inherit;cursor:pointer;background:#fff;min-height:44px;-webkit-tap-highlight-color:transparent;touch-action:manipulation;}
+.tf-btn.t.on{background:#16a34a;color:#fff;border-color:#16a34a;}
+.tf-btn.f.on{background:#dc2626;color:#fff;border-color:#dc2626;}
+/* SUBMIT BAR */
+#submit-bar{display:none;position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:2px solid var(--border);padding:10px 16px;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;z-index:50;-webkit-box-shadow:0 -4px 12px rgba(0,0,0,.09);box-shadow:0 -4px 12px rgba(0,0,0,.09);padding-bottom:calc(10px + env(safe-area-inset-bottom,0px));}
+#submit-bar.active{display:-webkit-box;display:-ms-flexbox;display:flex;}
+.sb-info{font-size:.78rem;color:var(--muted);-webkit-box-flex:1;-ms-flex:1;flex:1;padding-right:12px;}
+.sb-btn{padding:12px 20px;background:#16a34a;color:#fff;border:none;border-radius:10px;font-size:.95rem;font-weight:700;font-family:inherit;cursor:pointer;min-height:48px;white-space:nowrap;-webkit-tap-highlight-color:transparent;touch-action:manipulation;}
+/* RESULTS MODAL */
+#res-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.75);z-index:200;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;padding:20px;overflow-y:auto;}
+#res-overlay.active{display:-webkit-box;display:-ms-flexbox;display:flex;}
+.res-card{background:#fff;border-radius:16px;padding:28px 20px;max-width:440px;width:100%;text-align:center;margin:auto;}
+.res-title{font-size:1.35rem;font-weight:700;color:var(--navy);margin-bottom:6px;}
+.res-sub{font-size:.82rem;color:var(--muted);margin-bottom:16px;}
+.score-big{font-size:2.8rem;font-weight:700;color:var(--navy);margin:12px 0 4px;}
+.score-pct{font-size:1rem;color:var(--muted);margin-bottom:16px;}
+.score-grid{display:-webkit-box;display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;margin:0 -5px 16px;}
+.si{-webkit-box-flex:1;-ms-flex:1 1 100px;flex:1 1 100px;background:var(--bg);border-radius:10px;padding:10px;border:1px solid var(--border);margin:4px;}
+.si-lbl{font-size:.7rem;color:var(--muted);margin-bottom:3px;}
+.si-val{font-size:1.2rem;font-weight:700;color:var(--navy);}
+.res-note{font-size:.78rem;color:#999;margin-bottom:16px;}
+.res-close{padding:12px 32px;background:var(--navy);color:var(--gold);border:none;border-radius:8px;font-size:.92rem;font-weight:700;font-family:inherit;cursor:pointer;min-height:48px;}
+/* ALERT */
+#alert-banner{display:none;position:fixed;top:62px;left:50%;-webkit-transform:translateX(-50%);-ms-transform:translateX(-50%);transform:translateX(-50%);background:#dc2626;color:#fff;padding:12px 20px;border-radius:8px;font-size:.85rem;font-weight:600;z-index:150;-webkit-box-shadow:0 4px 12px rgba(0,0,0,.35);box-shadow:0 4px 12px rgba(0,0,0,.35);width:90%;max-width:520px;text-align:center;line-height:1.5;}
+/* ANTI-TRANSLATION */
+font[face],.goog-te-banner-frame,.goog-te-menu-frame,#goog-gt-tt,.goog-tooltip,.goog-text-highlight{display:none!important;visibility:hidden!important;}
+body{top:0!important;}
+/* RESPONSIVE */
+@media(max-width:480px){
+  #exam-screen{padding:12px 8px 120px;}
+  .sc{padding:16px 12px;border-radius:10px;}
+  .tf-row{display:block;}
+  .tf-txt{display:block;margin-bottom:6px;}
+  .tf-btns{display:-webkit-box;display:-ms-flexbox;display:flex;}
+  .fill-inp{max-width:45vw;}
+}
+@media(min-width:900px){
+  .login-card{padding:44px 40px;}
+  #exam-screen{padding:24px 20px 100px;}
+  .sc{padding:26px 24px;}
+}
+</style>
+</head>
+<body class="notranslate">
+
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-logo">Colegio Boston Flexible · 2026</div>
+    <div class="login-title">Quiz 1 — Unit 1</div>
+    <div class="login-sub">Uncover 4 &nbsp;·&nbsp; 8th Grade &nbsp;·&nbsp; English</div>
+    <p style="font-size:.8rem;color:#555;margin-bottom:10px;font-weight:600;">Select your section:</p>
+    <div class="sec-btns">
+      <button class="sec-btn blue-btn" id="sec-blue" onclick="selectSection('Blue',this)">🔵 8th Blue</button>
+      <button class="sec-btn red-btn"  id="sec-red"  onclick="selectSection('Red',this)">🔴 8th Red</button>
+    </div>
+    <div id="login-err"></div>
+    <input id="inp-email" class="login-input" type="email" placeholder="your.email@redboston.edu.co" autocapitalize="none" autocorrect="off" autocomplete="email">
+    <input id="inp-code"  class="login-input" type="text"  placeholder="Exam code (from teacher)" inputmode="numeric" autocomplete="off" style="margin-bottom:20px;">
+    <button class="login-btn" onclick="doLogin()">Start Quiz →</button>
+  </div>
+</div>
+
+<div id="timer-bar">
+  <div><div class="tbar-label">Time Remaining</div><div id="timer-display">75:00</div></div>
+  <div id="student-info">—</div>
+</div>
+
+<div id="alert-banner"></div>
+
+<div id="exam-screen">
+  <div class="tab-row">
+    <button class="tab-btn active" onclick="showTab('s1',this)">1. Vocabulary</button>
+    <button class="tab-btn" onclick="showTab('s2',this)">2. Reading T/F</button>
+    <button class="tab-btn" onclick="showTab('s3',this)">3. Grammar</button>
+    <button class="tab-btn" onclick="showTab('s4',this)">4. Time Expr.</button>
+    <button class="tab-btn" onclick="showTab('s5',this)">5. Used to/Would</button>
+  </div>
+
+  <!-- SECTION 1 — Media Vocabulary -->
+  <div id="tab-s1" class="tab-panel active">
+    <div class="sc">
+      <div class="sc-head">
+        <div class="sc-num">1</div>
+        <div><div class="sc-title">Vocabulary – Media Words</div><div class="sc-pts">8 pts · 1 pt each blank</div></div>
+      </div>
+      <div class="instr">Choose the correct word from the box to complete each sentence.</div>
+      <div class="wb"><div class="wb-lbl">Word Bank</div><div class="wb-words" id="s1-wb"></div></div>
+      <div id="s1-qs"></div>
+    </div>
+  </div>
+
+  <!-- SECTION 2 — Reading T/F -->
+  <div id="tab-s2" class="tab-panel">
+    <div class="sc">
+      <div class="sc-head">
+        <div class="sc-num">2</div>
+        <div><div class="sc-title">Reading Comprehension – True or False</div><div class="sc-pts">5 pts · 1 pt each</div></div>
+      </div>
+      <div class="reading-box">
+        <h4>Read carefully before answering</h4>
+        You worked hard on your report for school. You read articles online. You even watched online videos. You thought you did well, but you got the report back from your teacher, and she said that you had to do it again. What did you do wrong? Well, when you were doing your research, you believed everything that was written on the Internet!
+        <br><br>
+        A lot of information on the Internet isn't true. Anyone can post information online. A lot of news looks real, but contains false information. Sometimes, an article is entirely false. Fake photographs have even been posted with some news stories. Because of this common problem, many websites have been developed to give people true information.
+        <br><br>
+        <strong>Snopes.com</strong> gives people information about urban legends, myths, and other false stories. Many people have used the website to find out whether a story is true or false. For example, there have been stories online that said that Bill Gates was giving people free laptops. However, Snopes.com reported this <em>wasn't</em> true.
+        <br><br>
+        <strong>Factcheck.org</strong> gives true information about what leaders in the United States say and do. It tells readers when stories aren't true. People who work at Factcheck.org believe that reporters should be honest all of the time and that the news should always be true.
+        <br><br>
+        <strong>WhoWhatWhen</strong> gives information about famous people and events from 1000 AD to today. You can even create a timeline of events based on a famous person's life. Be careful when you write reports and use the Internet for research. Check your facts on websites like these so that you know you have true information!
+      </div>
+      <div class="instr">Write T (True) or F (False) based on the article above.</div>
+      <div id="s2-qs"></div>
+    </div>
+  </div>
+
+  <!-- SECTION 3 — Grammar MC -->
+  <div id="tab-s3" class="tab-panel">
+    <div class="sc">
+      <div class="sc-head">
+        <div class="sc-num">3</div>
+        <div><div class="sc-title">Grammar – Past Tenses</div><div class="sc-pts">6 pts · 2 pts each</div></div>
+      </div>
+      <div class="instr">Circle the correct option (a or b) to complete each exchange.</div>
+      <div id="s3-qs"></div>
+    </div>
+  </div>
+
+  <!-- SECTION 4 — Time Expressions -->
+  <div id="tab-s4" class="tab-panel">
+    <div class="sc">
+      <div class="sc-head">
+        <div class="sc-num">4</div>
+        <div><div class="sc-title">Vocabulary – Time Expressions</div><div class="sc-pts">10 pts · 1 pt each</div></div>
+      </div>
+      <div class="instr">Choose the correct time expression from the box to complete each sentence.</div>
+      <div class="wb"><div class="wb-lbl">Word Bank</div><div class="wb-words" id="s4-wb"></div></div>
+      <div id="s4-qs"></div>
+    </div>
+  </div>
+
+  <!-- SECTION 5 — Used to / Would -->
+  <div id="tab-s5" class="tab-panel">
+    <!-- 5a: Circle -->
+    <div class="sc">
+      <div class="sc-head">
+        <div class="sc-num">5a</div>
+        <div><div class="sc-title">Grammar – Used to &amp; Would (Circle)</div><div class="sc-pts">4 pts · 1 pt each · Select ALL correct options</div></div>
+      </div>
+      <div class="instr">Select the correct option(s). If both are correct, select both.</div>
+      <div id="s5a-qs"></div>
+    </div>
+    <!-- 5b: Paragraph -->
+    <div class="sc">
+      <div class="sc-head">
+        <div class="sc-num">5b</div>
+        <div><div class="sc-title">Grammar – Used to &amp; Would (Paragraph)</div><div class="sc-pts">5 pts · 1 pt each blank</div></div>
+      </div>
+      <div class="instr">Complete the paragraph with <em>used to</em> or <em>would</em>.</div>
+      <div id="s5b-qs"></div>
+    </div>
+  </div>
+</div>
+
+<div id="submit-bar">
+  <div class="sb-info" id="sb-info">Answer all questions, then submit.</div>
+  <button class="sb-btn" onclick="doSubmit()">Submit Quiz ✓</button>
+</div>
+
+<div id="res-overlay">
+  <div class="res-card">
+    <div class="res-title">📋 Quiz Submitted</div>
+    <div class="res-sub" id="res-name"></div>
+    <div class="score-big" id="res-score">—</div>
+    <div class="score-pct" id="res-pct"></div>
+    <div class="score-grid">
+      <div class="si"><div class="si-lbl">Vocab (S1)</div><div class="si-val" id="r-s1">—</div></div>
+      <div class="si"><div class="si-lbl">Reading (S2)</div><div class="si-val" id="r-s2">—</div></div>
+      <div class="si"><div class="si-lbl">Grammar (S3)</div><div class="si-val" id="r-s3">—</div></div>
+      <div class="si"><div class="si-lbl">Time Expr (S4)</div><div class="si-val" id="r-s4">—</div></div>
+      <div class="si"><div class="si-lbl">Used to (S5)</div><div class="si-val" id="r-s5">—</div></div>
+    </div>
+    <div class="res-note">Open questions graded by teacher separately.</div>
+    <button class="res-close" onclick="document.getElementById('res-overlay').classList.remove('active')">Close</button>
+  </div>
+</div>
+
+<script>
+// ===================== ANTI-TRANSLATION =====================
+(function(){
+  document.documentElement.setAttribute('translate','no');
+  document.documentElement.classList.add('notranslate');
+  try{Object.defineProperty(document.documentElement,'lang',{get:function(){return 'en';},set:function(){},configurable:false});}catch(e){}
+  try{Object.defineProperty(window,'Ya',{get:function(){return undefined;},set:function(){},configurable:false});}catch(e){}
+  try{Object.defineProperty(window,'MicrosoftTranslator',{get:function(){return undefined;},set:function(){},configurable:false});}catch(e){}
+  ['beforetranslate','translate','translatefailed'].forEach(function(evt){
+    window.addEventListener(evt,function(e){e.stopImmediatePropagation();e.preventDefault();},true);
+  });
+  var obs=new MutationObserver(function(muts){
+    muts.forEach(function(m){
+      if(m.type==='attributes'&&m.attributeName==='class'){
+        var el=m.target;
+        if(el.classList.contains('translated-ltr')||el.classList.contains('translated-rtl')){
+          el.classList.remove('translated-ltr','translated-rtl');
+          location.reload();
+        }
+      }
+      m.addedNodes.forEach(function(n){
+        if(n.nodeType===1){
+          if((n.tagName==='SCRIPT'&&n.src&&n.src.indexOf('translate.google')>-1)||
+             (n.tagName==='FONT'&&n.hasAttribute('face'))||
+             (n.id&&/deepl|lmt_/i.test(n.id))){
+            n.parentNode&&n.parentNode.removeChild(n);
+          }
+        }
+      });
+    });
+  });
+  obs.observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['class']});
+})();
+
+// ===================== CONFIG =====================
+const BLUE_BOT = '8695706186:AAGZ13aBnBS-7fVdhhBEsfbFevP9UWfksnk';
+const RED_BOT  = '8756099356:AAFRuHAEwsenn0_4gr8kXbumZdUSR6p16MM';
+const CID      = '2041749428';
+const MINS     = 75;
+
+// ===================== STUDENTS =====================
+const STUDENTS = {
+  // ── 8th BLUE ──
+  'fiorellaaronna@redboston.edu.co'  :{code:'40001',first:'Fiorella', last:'A',v:1,section:'Blue'},
+  'mathiasbello@redboston.edu.co'    :{code:'50002',first:'Mathias',  last:'B',v:2,section:'Blue'},
+  'danette@redboston.edu.co'         :{code:'40003',first:'Danette',  last:'C',v:1,section:'Blue'},
+  'juan.s.calvo@redboston.edu.co'    :{code:'50004',first:'Sebastian',last:'C',v:2,section:'Blue'},
+  'diegocastilla@redboston.edu.co'   :{code:'40005',first:'Diego',    last:'C',v:1,section:'Blue'},
+  'sebastiancas@redboston.edu.co'    :{code:'50006',first:'Sebastian',last:'C',v:2,section:'Blue'},
+  'gabrieladiaz@redboston.edu.co'    :{code:'40007',first:'Gabriela', last:'D',v:1,section:'Blue'},
+  'lionelfloriano@redboston.edu.co'  :{code:'50008',first:'Lionel',   last:'F',v:2,section:'Blue'},
+  'valerielizarazo@redboston.edu.co' :{code:'40009',first:'Valerie',  last:'L',v:1,section:'Blue'},
+  'sofiamaradey@redboston.edu.co'    :{code:'50010',first:'Sofia',    last:'M',v:2,section:'Blue'},
+  'samuel@redboston.edu.co'          :{code:'40011',first:'Samuel',   last:'N',v:1,section:'Blue'},
+  'miguelpanciera@redboston.edu.co'  :{code:'50012',first:'Miguel',   last:'P',v:2,section:'Blue'},
+  'lucianapedraza@redboston.edu.co'  :{code:'40013',first:'Luciana',  last:'P',v:1,section:'Blue'},
+  'sarahperez@redboston.edu.co'      :{code:'50014',first:'Sarah',    last:'P',v:2,section:'Blue'},
+  'samuelporto@redboston.edu.co'     :{code:'40015',first:'Samuel',   last:'P',v:1,section:'Blue'},
+  'jose@redboston.edu.co'            :{code:'50016',first:'Jose',     last:'Q',v:2,section:'Blue'},
+  'valentinareyes@redboston.edu.co'  :{code:'40017',first:'Valentina',last:'R',v:1,section:'Blue'},
+  'nadiarodriguez@redboston.edu.co'  :{code:'50018',first:'Nadia',    last:'R',v:2,section:'Blue'},
+  'kendallrojano@redboston.edu.co'   :{code:'40019',first:'Kendall',  last:'R',v:1,section:'Blue'},
+  'samuelsabalza@redboston.edu.co'   :{code:'50020',first:'Samuel',   last:'S',v:2,section:'Blue'},
+  'eesierra@redboston.edu.co'        :{code:'40021',first:'Emanuel',  last:'S',v:1,section:'Blue'},
+  // ── 8th RED ──
+  'alejandraalvarez@redboston.edu.co':{code:'60001',first:'Alejandra',last:'A',v:1,section:'Red'},
+  'sofiaarevalomin@redboston.edu.co' :{code:'70002',first:'Sofia',    last:'A',v:2,section:'Red'},
+  'victorias@redboston.edu.co'       :{code:'60003',first:'Victoria', last:'A',v:1,section:'Red'},
+  'josecastellon@redboston.edu.co'   :{code:'70004',first:'Manuel',   last:'C',v:2,section:'Red'},
+  'andreschima@redboston.edu.co'     :{code:'60005',first:'Andres',   last:'C',v:1,section:'Red'},
+  'cristinacontreras@redboston.edu.co':{code:'70006',first:'Cristina',last:'C',v:2,section:'Red'},
+  'susancrespo@redboston.edu.co'     :{code:'60007',first:'Susan',    last:'C',v:1,section:'Red'},
+  'viviangil@redboston.edu.co'       :{code:'70008',first:'Vivian',   last:'G',v:2,section:'Red'},
+  'andresgonzalez@redboston.edu.co'  :{code:'60009',first:'Andres',   last:'G',v:1,section:'Red'},
+  'nicolemanosalva@redboston.edu.co' :{code:'70010',first:'Nicolle',  last:'M',v:2,section:'Red'},
+  'valentinomartinez@redboston.edu.co':{code:'60011',first:'Valentino',last:'M',v:1,section:'Red'},
+  'sarameza@redboston.edu.co'        :{code:'70012',first:'Sara',     last:'M',v:2,section:'Red'},
+  'juanseortiz@redboston.edu.co'     :{code:'60013',first:'Juan',     last:'O',v:1,section:'Red'},
+  'mateopachon@redboston.edu.co'     :{code:'70014',first:'Mateo',    last:'P',v:2,section:'Red'},
+  'marianapareja@redboston.edu.co'   :{code:'60015',first:'Mariana',  last:'P',v:1,section:'Red'},
+  'moisespomarico@redboston.edu.co'  :{code:'70016',first:'Moises',   last:'P',v:2,section:'Red'},
+  'santiagoporto@redboston.edu.co'   :{code:'60017',first:'Santiago', last:'P',v:1,section:'Red'},
+  'isabelpua@redboston.edu.co'       :{code:'70018',first:'Isabel',   last:'P',v:2,section:'Red'},
+  'maryannrenteria@redboston.edu.co' :{code:'60019',first:'Maryann',  last:'R',v:1,section:'Red'},
+  'juanesromero@redboston.edu.co'    :{code:'70020',first:'Juan',     last:'R',v:2,section:'Red'},
+  'dannasarmiento@redboston.edu.co'  :{code:'60021',first:'Danna',    last:'S',v:1,section:'Red'},
+};
+
+// ===================== QUESTION DATA =====================
+// S1 — Media Vocabulary (8 blanks)
+const S1_DATA = [
+  {n:1, txt:"I watch the ___ on TV every night. My brother gets his ___ online.",          ans:['news','news'], blanks:2},
+  {n:2, txt:"Did you see the big ___ in today's ___? It was about a tiger escaping.",      ans:['headline','paper'], blanks:2},
+  {n:3, txt:"The ___ did an ___ with a local teen about a neighborhood fire.",             ans:['reporter','interview'], blanks:2},
+  {n:4, txt:"I'm going to read the ___ before I go see that movie.",                       ans:['review'], blanks:1},
+  {n:5, txt:"The ___ wrote about trends in teen fashion and included a ___ about popular places to shop.", ans:['blogger','report'], blanks:2},
+];
+const S1_WB_V1 = 'article | blogger | headline | interview | news | paper | report | reporter | review';
+const S1_WB_V2 = 'review | reporter | paper | news | interview | headline | blogger | article | report';
+
+// S2 — Reading T/F (5 questions)
+const S2_DATA = [
+  {n:1, txt:"All the information you find on the Internet is true.", ans:'F'},
+  {n:2, txt:"Snopes.com reported that Bill Gates was giving people free laptops.", ans:'F'},
+  {n:3, txt:"Factcheck.org gives information about what leaders in the United States say and do.", ans:'T'},
+  {n:4, txt:"WhoWhatWhen only covers events that happened after the year 2000.", ans:'F'},
+  {n:5, txt:"You can create a timeline of events based on a famous person's life on WhoWhatWhen.", ans:'T'},
+];
+
+// S3 — Grammar MC (3 questions, 2 pts each)
+const S3_DATA = [
+  {n:1,
+   prompt:"A: What were you watching last night?",
+   opts:[
+     "a. I was watching the news. I wasn't watching a movie.",
+     "b. I watch the news. I don't watch a movie."
+   ],
+   ans:'a'},
+  {n:2,
+   prompt:"A: Who has seen my keys?",
+   opts:[
+     "a. Peter saw them. He didn't see them today, though.",
+     "b. Peter has seen them. He hasn't seen them today, though."
+   ],
+   ans:'b'},
+  {n:3,
+   prompt:"A: Where did Jackie go?",
+   opts:[
+     "a. She has gone to the store. She hasn't gone to the market.",
+     "b. She went to the store. She didn't go to the market."
+   ],
+   ans:'b'},
+];
+
+// S4 — Time Expressions (10 blanks)
+const S4_DATA = [
+  {n:1,  txt:"I bought a new phone ___ I lost my old one.",             ans:['after']},
+  {n:2,  txt:"I was watching a movie, ___ my brother was playing a video game.", ans:['while']},
+  {n:3,  txt:"I called Rick ___ I found out the game was canceled.",    ans:['as soon as']},
+  {n:4,  txt:"___ my dad left for work, he read the paper.",            ans:['before']},
+  {n:5,  txt:"___ I got to the party, my friends were gone.",           ans:['by the time']},
+  {n:6,  txt:"___ I had difficult homework, I asked my sister for help.",ans:['every time']},
+  {n:7,  txt:"I've watched video clips ___ my friend started posting them.", ans:['since']},
+  {n:8,  txt:"I studied at the library ___ it was dark.",               ans:['until']},
+  {n:9,  txt:"___ I get together with my best friend, I feel happy.",   ans:['whenever']},
+  {n:10, txt:"I read some reviews ___ I was online.",                   ans:['while']},
+];
+const S4_WB_V1 = 'after | as soon as | before | by the time | every time | since | until | when | whenever | while';
+const S4_WB_V2 = 'while | whenever | until | since | every time | by the time | before | as soon as | when | after';
+
+// S5a — Used to / Would Circle (4 questions, 1pt each)
+// ans: array of correct options (by index 0=first,1=second)
+const S5A_DATA = [
+  {n:1, txt:"My cousin ___ on a farm when he was a boy.", opts:["used to live","would live"],   ans:[0,1]},  // both
+  {n:2, txt:"Every time he wanted a computer, he ___ to the library.", opts:["used to go","would go"], ans:[0,1]}, // both
+  {n:3, txt:"He ___ a smartphone when he was young.", opts:["used to not have","wouldn't have"], ans:[0,1]}, // both
+  {n:4, txt:"I ___ in Los Angeles. (state — not repeated action)", opts:["used to live","would live"], ans:[0]}, // used to only
+];
+
+// S5b — Paragraph (5 blanks)
+const S5B_DATA = [
+  {n:1, ctx:"When Brandon was in high school, he", hint:"(not / have)", ans:["didn't use to have","did not use to have"]},
+  {n:2, ctx:"Every morning, he", hint:"(read) the paper with his dad.", ans:["would read","used to read"]},
+  {n:3, ctx:"He", hint:"(go) to the library to do research because his family", ans:["would go","used to go"]},
+  {n:4, ctx:"his family", hint:"(not / have) a computer at home.", ans:["didn't use to have","did not use to have"]},
+  {n:5, ctx:"Whenever he needed help, he", hint:"(ask) the librarian.", ans:["would ask","used to ask"]},
+];
+
+// ===================== STATE =====================
+let stu=null, started=false, submitted=false, selectedSection=null;
+let timerInt=null, secs=MINS*60;
+let lastAlert=0, alertN=0;
+const eventLog=[];
+
+function logEvent(type,detail=''){
+  const now=new Date();
+  const ts=now.toLocaleDateString('es-CO',{year:'numeric',month:'2-digit',day:'2-digit'})
+           +' '+now.toLocaleTimeString('es-CO',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});
+  eventLog.push({ts,type,detail});
+}
+
+// ===================== LOGIN =====================
+function selectSection(sec, btn){
+  selectedSection=sec;
+  document.querySelectorAll('.sec-btn').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+}
+
+function doLogin(){
+  const email=document.getElementById('inp-email').value.trim().toLowerCase();
+  const code=document.getElementById('inp-code').value.trim();
+  const err=document.getElementById('login-err');
+  if(!selectedSection){err.textContent='Please select your section (Blue or Red).';return;}
+  if(!email||!code){err.textContent='Please enter your email and exam code.';return;}
+  const s=STUDENTS[email];
+  if(!s){err.textContent='Email not recognized. Check spelling.';return;}
+  if(s.section!==selectedSection){err.textContent=`This email belongs to 8th ${s.section}, not 8th ${selectedSection}.`;return;}
+  if(s.code!==code){err.textContent='Incorrect exam code. Try again.';return;}
+  stu={...s,email};
+  launchExam();
+}
+
+function launchExam(){
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('timer-bar').classList.add('active');
+  document.getElementById('exam-screen').style.display='block';
+  document.getElementById('submit-bar').classList.add('active');
+  const secColor=stu.section==='Blue'?'blue':'red';
+  document.getElementById('student-info').innerHTML=
+    `${stu.first} ${stu.last}. <span class="ver-badge ${secColor}">8th ${stu.section} · V${stu.v}</span>`;
+  started=true;
+  logEvent('EXAM_STARTED',`8th ${stu.section} V${stu.v}`);
+  buildAll();
+  startTimer();
+  setupExit();
+  tgStart();
+}
+
+// ===================== HELPERS =====================
+const h=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+function norm(s){
+  return String(s).toLowerCase().trim()
+    .replace(/i'm/g,'i am').replace(/i've/g,'i have')
+    .replace(/'ve/g,' have').replace(/'m/g,' am').replace(/'s/g,' is').replace(/'t/g,'t')
+    .replace(/did not/g,"didn't").replace(/do not/g,"don't")
+    .replace(/would not/g,"wouldn't").replace(/used to not/g,"didn't use to")
+    .replace(/\s+/g,' ').trim();
+}
+function chk(student,correct){
+  if(!student||!student.trim()) return false;
+  const n=norm(student);
+  return Array.isArray(correct)?correct.some(c=>n===norm(c)):n===norm(correct);
+}
+function gv(id){const e=document.getElementById(id);return e?e.value.trim():'';}
+
+// ===================== BUILD SECTIONS =====================
+function buildAll(){
+  const v=stu.v;
+  buildS1(v); buildS2(); buildS3(v); buildS4(v); buildS5a(); buildS5b();
+}
+
+function buildS1(v){
+  document.getElementById('s1-wb').textContent=v===1?S1_WB_V1:S1_WB_V2;
+  let html='';
+  S1_DATA.forEach(q=>{
+    html+=`<div class="qr"><span class="qnum">${q.n}.</span><div class="qbody"><div class="qtxt">`;
+    const parts=q.txt.split('___');
+    parts.forEach((p,i)=>{
+      html+=h(p);
+      if(i<parts.length-1){
+        const blankIdx=i+1;
+        html+=`<input class="fill-inp" id="s1-${q.n}-${blankIdx}" placeholder="word" oninput="updProg()" style="width:100px">`;
+      }
+    });
+    html+=`</div></div></div>`;
+  });
+  document.getElementById('s1-qs').innerHTML=html;
+}
+
+function buildS2(){
+  let html='';
+  S2_DATA.forEach(q=>{
+    html+=`<div class="tf-row">
+      <span class="tf-num">${q.n}.</span>
+      <span class="tf-txt">${h(q.txt)}</span>
+      <div class="tf-btns">
+        <button class="tf-btn t" id="s2-t-${q.n}" onclick="selTF(${q.n},'T')">T</button>
+        <button class="tf-btn f" id="s2-f-${q.n}" onclick="selTF(${q.n},'F')">F</button>
+      </div>
+    </div>`;
+  });
+  document.getElementById('s2-qs').innerHTML=html;
+}
+
+function selTF(n,val){
+  document.getElementById('s2-t-'+n).classList.toggle('on',val==='T');
+  document.getElementById('s2-f-'+n).classList.toggle('on',val==='F');
+  updProg();
+}
+
+function buildS3(v){
+  let html='';
+  // V2: swap option order
+  S3_DATA.forEach(q=>{
+    const opts=v===1?q.opts:[...q.opts].reverse();
+    html+=`<div class="qr"><span class="qnum">${q.n}.</span><div class="qbody">
+      <div class="qtxt" style="font-style:italic;margin-bottom:8px">${h(q.prompt)}</div>
+      <div class="rg">`;
+    opts.forEach((o,i)=>{
+      html+=`<label class="ropt" onclick="selR(this,'s3-${q.n}')"><input type="radio" name="s3-${q.n}" value="${h(o)}"> ${h(o)}</label>`;
+    });
+    html+=`</div></div></div>`;
+  });
+  document.getElementById('s3-qs').innerHTML=html;
+}
+
+function selR(label,name){
+  document.querySelectorAll(`[name="${name}"]`).forEach(r=>r.closest('.ropt').classList.remove('sel'));
+  label.classList.add('sel');
+  updProg();
+}
+
+function buildS4(v){
+  document.getElementById('s4-wb').textContent=v===1?S4_WB_V1:S4_WB_V2;
+  let html='';
+  S4_DATA.forEach(q=>{
+    const parts=q.txt.split('___');
+    html+=`<div class="qr"><span class="qnum">${q.n}.</span><div class="qbody"><div class="qtxt">`;
+    parts.forEach((p,i)=>{
+      html+=h(p);
+      if(i<parts.length-1)
+        html+=`<input class="fill-inp" id="s4-${q.n}" placeholder="expression" oninput="updProg()" style="width:110px">`;
+    });
+    html+=`</div></div></div>`;
+  });
+  document.getElementById('s4-qs').innerHTML=html;
+}
+
+function buildS5a(){
+  let html='';
+  S5A_DATA.forEach(q=>{
+    html+=`<div class="qr"><span class="qnum">${q.n}.</span><div class="qbody">
+      <div class="qtxt" style="margin-bottom:8px">${h(q.txt)}</div>
+      <div style="display:flex;flex-wrap:wrap;">`;
+    q.opts.forEach((o,i)=>{
+      html+=`<button class="msopt" id="s5a-${q.n}-${i}" onclick="selMS(${q.n},${i})">${h(o)}</button>`;
+    });
+    html+=`</div></div></div>`;
+  });
+  document.getElementById('s5a-qs').innerHTML=html;
+}
+
+function selMS(qn,idx){
+  document.getElementById(`s5a-${qn}-${idx}`).classList.toggle('sel');
+  updProg();
+}
+
+function buildS5b(){
+  let html=`<div style="background:#fafaf2;border:1.5px solid var(--border);border-radius:10px;padding:16px;font-size:.9rem;line-height:2.4;">
+    <p style="margin-bottom:12px;font-style:italic;color:#555">When Brandon was in high school, he <input class="fill-inp" id="s5b-1" placeholder="(not/have)" oninput="updProg()" style="width:170px"> a smartphone. Every morning, he <input class="fill-inp" id="s5b-2" placeholder="(read)" oninput="updProg()" style="width:140px"> the paper with his dad. He <input class="fill-inp" id="s5b-3" placeholder="(go)" oninput="updProg()" style="width:130px"> to the library to do research because his family <input class="fill-inp" id="s5b-4" placeholder="(not/have)" oninput="updProg()" style="width:170px"> a computer at home. Whenever he needed help, he <input class="fill-inp" id="s5b-5" placeholder="(ask)" oninput="updProg()" style="width:130px"> the librarian.</p>
+  </div>`;
+  document.getElementById('s5b-qs').innerHTML=html;
+}
+
+// ===================== PROGRESS =====================
+function updProg(){
+  const total=27, done=countDone();
+  const pct=Math.round(done/total*100);
+  document.getElementById('sb-info').textContent=`${done} / ${total} answered (${pct}%)`;
+}
+
+function countDone(){
+  let c=0;
+  // S1: 8 blanks
+  S1_DATA.forEach(q=>{for(let b=1;b<=q.blanks;b++){if(gv(`s1-${q.n}-${b}`))c++;}});
+  // S2: 5 T/F
+  S2_DATA.forEach(q=>{
+    const t=document.getElementById('s2-t-'+q.n),f=document.getElementById('s2-f-'+q.n);
+    if((t&&t.classList.contains('on'))||(f&&f.classList.contains('on')))c++;
+  });
+  // S3: 3 MC
+  for(let i=1;i<=3;i++){if(document.querySelector(`[name="s3-${i}"]:checked`))c++;}
+  // S4: 10
+  for(let i=1;i<=10;i++){if(gv('s4-'+i))c++;}
+  // S5a: 4
+  S5A_DATA.forEach(q=>{
+    const anySelected=q.opts.some((_,i)=>document.getElementById(`s5a-${q.n}-${i}`)?.classList.contains('sel'));
+    if(anySelected)c++;
+  });
+  // S5b: 5
+  for(let i=1;i<=5;i++){if(gv('s5b-'+i))c++;}
+  return c;
+}
+
+// ===================== SCORING =====================
+function calcScore(){
+  let s1=0,s2=0,s3=0,s4=0,s5=0;
+  // S1 (8 pts)
+  S1_DATA.forEach(q=>{
+    for(let b=1;b<=q.blanks;b++){
+      if(chk(gv(`s1-${q.n}-${b}`),q.ans[b-1]))s1++;
+    }
+  });
+  // S2 (5 pts)
+  S2_DATA.forEach(q=>{
+    const t=document.getElementById('s2-t-'+q.n),f=document.getElementById('s2-f-'+q.n);
+    let sel='';
+    if(t&&t.classList.contains('on'))sel='T';
+    if(f&&f.classList.contains('on'))sel='F';
+    if(sel===q.ans)s2++;
+  });
+  // S3 (6 pts = 2 each)
+  S3_DATA.forEach(q=>{
+    const sel=document.querySelector(`[name="s3-${q.n}"]:checked`);
+    if(sel&&sel.value.startsWith(q.ans+'.')){s3+=2;}
+    // V2 swaps order — check both ways
+    else if(sel&&sel.value.trim()[0]===q.ans){s3+=2;}
+  });
+  // S4 (10 pts)
+  S4_DATA.forEach(q=>{if(chk(gv('s4-'+q.n),q.ans))s4++;});
+  // S5a (4 pts) — accept if selected options match correct options
+  S5A_DATA.forEach(q=>{
+    const selected=q.opts.map((_,i)=>document.getElementById(`s5a-${q.n}-${i}`)?.classList.contains('sel')?i:-1).filter(x=>x>=0);
+    const correct=q.ans;
+    const fullMatch=correct.length===selected.length&&correct.every(x=>selected.includes(x));
+    if(fullMatch)s5++;
+  });
+  // S5b (5 pts)
+  S5B_DATA.forEach(q=>{if(chk(gv('s5b-'+q.n),q.ans))s5++;});
+  const total=s1+s2+s3+s4+s5;
+  return{s1,s2,s3,s4,s5,total,grand:38};
+}
+
+function calcGrade(score,total){
+  return Math.max(0,Math.round((score/total)*5*100)/100).toFixed(2);
+}
+
+// ===================== SUBMIT =====================
+function doSubmit(){
+  if(submitted)return;
+  if(!confirm('Submit your quiz now? You cannot make changes after submitting.'))return;
+  submitted=true;
+  clearInterval(timerInt);
+  logEvent('EXAM_SUBMITTED',`Score: ${calcScore().total}/38`);
+  const sc=calcScore();
+  showResults(sc);
+  tgResults(sc);
+  sendEventLog();
+  sendPDF(sc);
+}
+
+function showResults(sc){
+  const grade=calcGrade(sc.total,sc.grand);
+  const pct=Math.round(sc.total/sc.grand*100);
+  document.getElementById('res-name').textContent=`${stu.first} ${stu.last}. · 8th ${stu.section} · V${stu.v}`;
+  document.getElementById('res-score').textContent=`${sc.total} / ${sc.grand}`;
+  document.getElementById('res-pct').textContent=`${pct}% · Grade: ${grade} / 5.0`;
+  document.getElementById('r-s1').textContent=`${sc.s1}/8`;
+  document.getElementById('r-s2').textContent=`${sc.s2}/5`;
+  document.getElementById('r-s3').textContent=`${sc.s3}/6`;
+  document.getElementById('r-s4').textContent=`${sc.s4}/10`;
+  document.getElementById('r-s5').textContent=`${sc.s5}/9`;
+  document.getElementById('res-overlay').classList.add('active');
+}
+
+// ===================== TIMER =====================
+function startTimer(){
+  timerInt=setInterval(()=>{
+    secs--;
+    const m=Math.floor(secs/60),s=secs%60;
+    const el=document.getElementById('timer-display');
+    el.textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    el.classList.toggle('warn',secs<=300);
+    if(secs<=0){clearInterval(timerInt);alert('⏰ Time is up! Submitting your quiz.');doSubmit();}
+  },1000);
+}
+
+// ===================== TELEGRAM =====================
+function BOT(){return stu.section==='Blue'?BLUE_BOT:RED_BOT;}
+function tg(msg){
+  fetch(`https://api.telegram.org/bot${BOT()}/sendMessage`,{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({chat_id:CID,text:msg})
+  }).catch(()=>{});
+}
+function tgPhoto(blob,caption){
+  const fd=new FormData();fd.append('chat_id',CID);fd.append('caption',caption);fd.append('photo',blob,'screenshot.png');
+  fetch(`https://api.telegram.org/bot${BOT()}/sendPhoto`,{method:'POST',body:fd}).catch(()=>{});
+}
+function tgDoc(blob,filename,caption){
+  const fd=new FormData();fd.append('chat_id',CID);fd.append('caption',caption);fd.append('document',blob,filename);
+  fetch(`https://api.telegram.org/bot${BOT()}/sendDocument`,{method:'POST',body:fd}).catch(()=>{});
+}
+function tgStart(){
+  const t=new Date().toLocaleTimeString('es-CO',{hour:'2-digit',minute:'2-digit'});
+  tg(`🟢 QUIZ STARTED\n👤 ${stu.first} ${stu.last}.\n🏫 8th ${stu.section} · V${stu.v}\n🕐 ${t}`);
+}
+function tgAlert(){
+  if(!started||submitted)return;
+  const now=Date.now();
+  if(now-lastAlert<20000)return;
+  lastAlert=now;alertN++;
+  const tStr=`${String(Math.floor(secs/60)).padStart(2,'0')}:${String(secs%60).padStart(2,'0')}`;
+  if(alertN===1){
+    logEvent('EXIT_ATTEMPT_1',`Time left: ${tStr}`);
+    tg(`⚠️ INTENTO DE TRAMPA #1\n👤 ${stu.first} ${stu.last}.\n🏫 8th ${stu.section} · V${stu.v}\n⏱️ Tiempo restante: ${tStr}\n\n⚠️ Primera advertencia enviada al estudiante.`);
+    flashBanner(`⚠️ ADVERTENCIA: No salgas de la ventana del examen. Si lo intentas de nuevo, el examen se cerrará automáticamente, se notificará al profesor y perderás el examen.`,false);
+    captureScreen('attempt1',`📸 PANTALLA — Intento #1\n👤 ${stu.first} ${stu.last}. · 8th ${stu.section} · V${stu.v} · ⏱️ ${tStr}`);
+  } else {
+    logEvent('EXIT_ATTEMPT_2_EXAM_CLOSED',`Time left: ${tStr} — Exam locked`);
+    submitted=true;clearInterval(timerInt);
+    captureScreen('attempt2',`📸 PANTALLA — Intento #2 (EXAMEN CERRADO)\n👤 ${stu.first} ${stu.last}. · 8th ${stu.section} · V${stu.v} · ⏱️ ${tStr}`,function(){sendEventLog();});
+    tg(`🚨 EXAMEN CERRADO POR TRAMPA\n👤 ${stu.first} ${stu.last}.\n🏫 8th ${stu.section} · V${stu.v}\n⏱️ Tiempo restante: ${tStr}\n\n❌ El examen fue cerrado automáticamente por intento de trampa #${alertN}.`);
+    flashBanner(`🚨 Examen cerrado. Se ha notificado al profesor. Has perdido el examen por intentar salir de la ventana.`,true);
+    setTimeout(()=>lockExam(),3500);
+  }
+}
+function tgResults(sc){
+  const grade=calcGrade(sc.total,sc.grand);
+  const pct=Math.round(sc.total/sc.grand*100);
+  const t=new Date().toLocaleTimeString('es-CO',{hour:'2-digit',minute:'2-digit'});
+  tg(`🔴 QUIZ FINISHED\n👤 ${stu.first} ${stu.last}.\n🏫 8th ${stu.section} · V${stu.v}\n🕐 ${t}\n\n📊 Score: ${sc.total}/${sc.grand} (${pct}%)\n🎯 GRADE: ${grade} / 5.0\n\n📝 S1 Vocab: ${sc.s1}/8\n📖 S2 Reading T/F: ${sc.s2}/5\n✏️ S3 Grammar: ${sc.s3}/6\n⏰ S4 Time Expr: ${sc.s4}/10\n🔄 S5 Used to/Would: ${sc.s5}/9\n\n📄 Full correction sent separately.`);
+}
+function flashBanner(msg,permanent){
+  const b=document.getElementById('alert-banner');
+  b.textContent=msg;b.style.display='block';b.style.padding='14px 22px';b.style.maxWidth='90vw';b.style.textAlign='center';b.style.lineHeight='1.5';
+  if(permanent){b.style.background='#7f1d1d';b.style.fontSize='1rem';}
+  else{b.style.background='#dc2626';b.style.fontSize='.85rem';setTimeout(()=>b.style.display='none',6000);}
+}
+function lockExam(){
+  document.getElementById('exam-screen').style.display='none';
+  document.getElementById('submit-bar').classList.remove('active');
+  document.getElementById('timer-bar').classList.remove('active');
+  document.getElementById('login-screen').style.display='flex';
+  const card=document.querySelector('.login-card');
+  card.innerHTML=`<div style="font-size:3rem;margin-bottom:12px">🚨</div>
+    <div style="font-size:1.3rem;font-weight:700;color:#dc2626;margin-bottom:10px">Examen Cerrado</div>
+    <div style="font-size:.9rem;color:#444;line-height:1.65;margin-bottom:14px">Tu examen fue cerrado automáticamente porque intentaste salir de la ventana más de una vez.<br><br>Se ha enviado una notificación a tu profesor con el registro completo.</div>
+    <div style="font-size:.8rem;color:#999;">Habla con tu profesor para continuar.</div>`;
+}
+
+// ===================== SCREEN CAPTURE =====================
+function captureScreen(label,caption,callback){
+  const target=document.getElementById('exam-screen')||document.body;
+  const ts=new Date().toLocaleString('es-CO',{year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});
+  if(typeof html2canvas==='undefined'){tg('📵 Sin captura de pantalla\n'+caption);if(callback)callback();return;}
+  try{
+    html2canvas(target,{scale:1,useCORS:true,allowTaint:true,backgroundColor:'#f5f4ef',logging:false,
+      onclone:function(doc){
+        var s=doc.createElement('div');
+        s.style.cssText='position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,.75);color:#ffcc00;font:bold 13px monospace;padding:7px 12px;z-index:99999;text-align:left;';
+        s.textContent=ts+' | '+stu.first+' '+stu.last+'. 8th '+stu.section+' V'+stu.v+' | EXIT #'+alertN;
+        doc.body.appendChild(s);
+      }
+    }).then(function(canvas){
+      canvas.toBlob(function(blob){
+        if(blob){tgPhoto(blob,caption);logEvent('SCREEN_CAPTURE_SENT',label+' '+ts);}
+        if(callback)callback();
+      },'image/png');
+    }).catch(function(err){logEvent('CAPTURE_ERROR',err.message);if(callback)callback();});
+  }catch(e){logEvent('CAPTURE_EXCEPTION',e.message);if(callback)callback();}
+}
+
+// ===================== EVENT LOG =====================
+function sendEventLog(){
+  const date=new Date().toLocaleDateString('es-CO',{year:'numeric',month:'long',day:'numeric'});
+  const lines=[];
+  lines.push('COLEGIO BOSTON FLEXIBLE — EVIDENCE LOG');
+  lines.push(`Quiz 1 Unit 1 · 8th ${stu.section} · 2026`);
+  lines.push('═'.repeat(55));
+  lines.push(`Student : ${stu.first} ${stu.last}.`);
+  lines.push(`Email   : ${stu.email}`);
+  lines.push(`Section : 8th ${stu.section}   Version: ${stu.v}   Date: ${date}`);
+  lines.push('─'.repeat(55));
+  lines.push('TIMESTAMP LOG (cross-reference with classroom camera)');
+  lines.push('─'.repeat(55));
+  eventLog.forEach((e,i)=>{
+    const icon=e.type.includes('STARTED')?'🟢':e.type.includes('SUBMITTED')?'✅':e.type.includes('CLOSED')?'🚨':'⚠️';
+    lines.push(`  ${String(i+1).padStart(2,'0')}. [${e.ts}]  ${icon} ${e.type}`);
+    if(e.detail)lines.push(`        Detail: ${e.detail}`);
+  });
+  lines.push('─'.repeat(55));
+  lines.push('NOTE: Timestamps device-local time (es-CO).');
+  lines.push('Cross-reference with classroom security camera.');
+  lines.push('═'.repeat(55));
+  const blob=new Blob([lines.join('\n')],{type:'text/plain;charset=utf-8'});
+  tgDoc(blob,`EventLog_${stu.first}_${stu.last}_8th${stu.section}_V${stu.v}.txt`,
+    `🗂️ EVENT LOG — ${stu.first} ${stu.last}. | 8th ${stu.section} | V${stu.v} | ${eventLog.length} events`);
+}
+
+// ===================== PDF CORRECTION =====================
+function collectAllAnswers(){
+  const a={};
+  S1_DATA.forEach(q=>{for(let b=1;b<=q.blanks;b++)a[`s1-${q.n}-${b}`]=gv(`s1-${q.n}-${b}`);});
+  S2_DATA.forEach(q=>{
+    const t=document.getElementById('s2-t-'+q.n),f=document.getElementById('s2-f-'+q.n);
+    if(t&&t.classList.contains('on'))a['s2-'+q.n]='T';
+    else if(f&&f.classList.contains('on'))a['s2-'+q.n]='F';
+    else a['s2-'+q.n]='';
+  });
+  for(let i=1;i<=3;i++){const c=document.querySelector(`[name="s3-${i}"]:checked`);a['s3-'+i]=c?c.value:'';}
+  for(let i=1;i<=10;i++)a['s4-'+i]=gv('s4-'+i);
+  S5A_DATA.forEach(q=>{
+    const sel=q.opts.filter((_,i)=>document.getElementById(`s5a-${q.n}-${i}`)?.classList.contains('sel'));
+    a['s5a-'+q.n]=sel.join(' + ')||'—';
+  });
+  for(let i=1;i<=5;i++)a['s5b-'+i]=gv('s5b-'+i);
+  return a;
+}
+
+function sendPDF(sc){
+  const ans=collectAllAnswers();
+  const grade=calcGrade(sc.total,sc.grand);
+  const pct=Math.round(sc.total/sc.grand*100);
+  const date=new Date().toLocaleDateString('es-CO',{year:'numeric',month:'long',day:'numeric'});
+  const G=sc.grand;
+
+  if(typeof window.jspdf==='undefined'&&typeof jspdf==='undefined'){
+    sendPDFfallback(sc,ans,grade,pct,date,G);return;
+  }
+  try{
+    const {jsPDF}=window.jspdf||jspdf;
+    const doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
+    const W=210,margin=14;let y=20;
+    const NAVY=[15,32,68],GOLD=[200,153,42],GREEN=[22,163,74],RED=[220,38,38],GREY=[245,244,239];
+    const SBLUE=[29,78,216],SRED=[153,27,27];
+    const secColor=stu.section==='Blue'?SBLUE:SRED;
+
+    function setFont(size,style,color){doc.setFontSize(size);doc.setFont('helvetica',style||'normal');doc.setTextColor(...(color||[30,30,30]));}
+    function fillRect(x,fy,w,fh,color){doc.setFillColor(...color);doc.rect(x,fy,w,fh,'F');}
+    function checkPage(need){if(y+need>280){doc.addPage();y=16;}}
+    function hRule(){doc.setDrawColor(...[212,208,200]);doc.setLineWidth(.3);doc.line(margin,y,W-margin,y);y+=3;}
+
+    // Header
+    fillRect(0,0,W,28,NAVY);
+    setFont(13,'bold',GOLD);doc.text('COLEGIO BOSTON FLEXIBLE',W/2,10,{align:'center'});
+    setFont(9,'normal',[200,200,200]);doc.text(`Quiz 1 · Unit 1 · Uncover 4 · 8th Grade · English · 2026`,W/2,16,{align:'center'});
+    setFont(8,'normal',[160,160,160]);doc.text('FULL CORRECTION — CONFIDENTIAL',W/2,22,{align:'center'});
+    y=34;
+
+    // Student box
+    fillRect(margin,y,W-margin*2,22,GREY);
+    doc.setDrawColor(...NAVY);doc.setLineWidth(.5);doc.rect(margin,y,W-margin*2,22);
+    setFont(10,'bold',NAVY);doc.text(`${stu.first} ${stu.last}.`,margin+4,y+7);
+    setFont(8,'normal',[80,80,80]);doc.text(stu.email,margin+4,y+13);
+    doc.text(`8th ${stu.section}  ·  Version ${stu.v}  ·  ${date}`,margin+4,y+19);
+    // Section badge
+    fillRect(W-margin-28,y+2,26,10,secColor);
+    setFont(8,'bold',[255,255,255]);doc.text(`8th ${stu.section}`,W-margin-15,y+9,{align:'center'});
+    // Grade box
+    fillRect(W-margin-55,y+1,24,20,NAVY);
+    setFont(15,'bold',[255,255,255]);doc.text(`${grade}`,W-margin-43,y+11,{align:'center'});
+    setFont(7,'normal',GOLD);doc.text('/ 5.0',W-margin-43,y+17,{align:'center'});
+    y+=28;
+
+    // Score row
+    fillRect(margin,y,W-margin*2,12,[230,235,245]);
+    setFont(9,'bold',NAVY);doc.text(`Score: ${sc.total} / ${G} pts  (${pct}%)`,margin+4,y+8);
+    setFont(8,'normal',[80,80,80]);
+    doc.text(`S1:${sc.s1}/8  S2:${sc.s2}/5  S3:${sc.s3}/6  S4:${sc.s4}/10  S5:${sc.s5}/9`,W-margin-4,y+8,{align:'right'});
+    y+=16;
+
+    function sectionHeader(title){
+      checkPage(14);fillRect(margin,y,W-margin*2,10,NAVY);
+      setFont(9,'bold',[255,255,255]);doc.text(title.toUpperCase(),margin+4,y+7);y+=13;
+    }
+    function subHeader(t){checkPage(10);setFont(8,'bold',NAVY);doc.text(t,margin,y);y+=5;hRule();}
+    function answerRow(num,question,studentAns,correctAns,isOk){
+      checkPage(9);const rowH=8;
+      if(!isOk)fillRect(margin,y,W-margin*2,rowH,[255,240,240]);
+      setFont(7,'bold',[150,150,150]);doc.text(String(num)+'.',margin+1,y+5.5);
+      setFont(7,'normal',[60,60,60]);
+      const qS=question.length>52?question.substring(0,49)+'...':question;
+      doc.text(qS,margin+7,y+5.5);
+      const saX=margin+90;
+      setFont(7,'bold',isOk?GREEN:RED);
+      const saS=String(studentAns||'—').length>16?String(studentAns||'—').substring(0,15)+'…':String(studentAns||'—');
+      doc.text(saS,saX,y+5.5);
+      if(isOk){setFont(8,'bold',GREEN);doc.text('✓',saX+28,y+5.5);}
+      else{setFont(7,'normal',[150,150,150]);doc.text('→',saX+28,y+5.5);setFont(7,'bold',GREEN);
+        const cS=String(correctAns).length>18?String(correctAns).substring(0,17)+'…':String(correctAns);
+        doc.text(cS,saX+33,y+5.5);}
+      y+=rowH;
+    }
+
+    // Section 1
+    sectionHeader('Section 1 — Media Vocabulary (8 pts)');
+    S1_DATA.forEach(q=>{
+      for(let b=1;b<=q.blanks;b++){
+        const ok=chk(ans[`s1-${q.n}-${b}`],q.ans[b-1]);
+        answerRow(`${q.n}.${b}`,`Q${q.n} blank ${b}`,ans[`s1-${q.n}-${b}`]||'—',q.ans[b-1],ok);
+      }
+    });
+
+    // Section 2
+    checkPage(16);y+=4;sectionHeader('Section 2 — Reading T/F (5 pts)');
+    S2_DATA.forEach(q=>answerRow(q.n,q.txt,ans['s2-'+q.n]||'—',q.ans,ans['s2-'+q.n]===q.ans));
+
+    // Section 3
+    checkPage(16);y+=4;sectionHeader('Section 3 — Grammar MC (6 pts — 2 pts each)');
+    S3_DATA.forEach(q=>{
+      const sel=ans['s3-'+q.n]||'—';
+      const ok=sel.trim()[0]===q.ans;
+      answerRow(q.n,q.prompt,sel,q.ans+'. '+q.opts.find(o=>o.startsWith(q.ans+'.'))||q.ans,ok);
+    });
+
+    // Section 4
+    checkPage(16);y+=4;sectionHeader('Section 4 — Time Expressions (10 pts)');
+    S4_DATA.forEach(q=>answerRow(q.n,q.txt,ans['s4-'+q.n]||'—',q.ans[0],chk(ans['s4-'+q.n],q.ans)));
+
+    // Section 5a
+    checkPage(16);y+=4;sectionHeader('Section 5a — Used to/Would Circle (4 pts)');
+    S5A_DATA.forEach(q=>{
+      const selected=q.opts.map((_,i)=>document.getElementById(`s5a-${q.n}-${i}`)?.classList.contains('sel')?i:-1).filter(x=>x>=0);
+      const ok=q.ans.length===selected.length&&q.ans.every(x=>selected.includes(x));
+      const selStr=selected.map(i=>q.opts[i]).join(' + ')||'—';
+      const corrStr=q.ans.map(i=>q.opts[i]).join(' + ');
+      answerRow(q.n,q.txt,selStr,corrStr,ok);
+    });
+
+    // Section 5b
+    checkPage(16);y+=4;sectionHeader('Section 5b — Used to/Would Paragraph (5 pts)');
+    S5B_DATA.forEach(q=>answerRow(q.n,q.ctx+' '+q.hint,ans['s5b-'+q.n]||'—',q.ans[0],chk(ans['s5b-'+q.n],q.ans)));
+
+    // Grading scale
+    checkPage(20);y+=6;
+    fillRect(margin,y,W-margin*2,10,NAVY);setFont(9,'bold',[255,255,255]);doc.text('GRADING SCALE',margin+4,y+7);y+=13;
+    let scaleX=margin;const colW=39;
+    for(let w=0;w<=15;w++){
+      const s2=G-w;const g2=calcGrade(s2,G);const isMe=(s2===sc.total);
+      if(isMe)fillRect(scaleX,y-1,colW-1,8,GOLD);
+      setFont(7,isMe?'bold':'normal',isMe?NAVY:[80,80,80]);
+      doc.text(`${s2}/${G} → ${g2}`,scaleX+2,y+5);
+      scaleX+=colW;if(scaleX+colW>W-margin){scaleX=margin;y+=9;checkPage(9);}
+    }
+    y+=12;
+
+    // Footer
+    const pages=doc.getNumberOfPages();
+    for(let p=1;p<=pages;p++){
+      doc.setPage(p);setFont(7,'normal',[150,150,150]);
+      doc.text(`Colegio Boston Flexible · 8th ${stu.section} · ${date} · Confidential`,margin,290);
+      doc.text(`Page ${p}/${pages}`,W-margin,290,{align:'right'});
+    }
+
+    const pdfBlob=doc.output('blob');
+    const fname=`Correction_${stu.first}_${stu.last}_8th${stu.section}_V${stu.v}.pdf`;
+    const cap=`📄 ${stu.first} ${stu.last}. | 8th ${stu.section} | V${stu.v} | ${sc.total}/${G} | Grade: ${grade}/5.0`;
+    tgDoc(pdfBlob,fname,cap);
+  }catch(err){console.error(err);sendPDFfallback(sc,ans,grade,pct,date,G);}
+}
+
+function sendPDFfallback(sc,ans,grade,pct,date,G){
+  const S=(ok,c)=>ok?'✓':'✗ → '+c;
+  const lines=[`CORRECTION · 8th ${stu.section} V${stu.v} · ${stu.first} ${stu.last}.`,
+    `${date} · Score: ${sc.total}/${G} (${pct}%) · Grade: ${grade}/5.0`,'─'.repeat(55)];
+  S1_DATA.forEach(q=>{for(let b=1;b<=q.blanks;b++)lines.push(`S1-Q${q.n}.${b}: "${ans[`s1-${q.n}-${b}`]||'—'}" ${S(chk(ans[`s1-${q.n}-${b}`],q.ans[b-1]),q.ans[b-1])}`);});
+  S2_DATA.forEach(q=>lines.push(`S2-Q${q.n}: "${ans['s2-'+q.n]||'—'}" ${S(ans['s2-'+q.n]===q.ans,q.ans)}`));
+  S3_DATA.forEach(q=>lines.push(`S3-Q${q.n}: "${(ans['s3-'+q.n]||'—').substring(0,40)}" ${S((ans['s3-'+q.n]||'').trim()[0]===q.ans,q.ans)}`));
+  S4_DATA.forEach(q=>lines.push(`S4-Q${q.n}: "${ans['s4-'+q.n]||'—'}" ${S(chk(ans['s4-'+q.n],q.ans),q.ans[0])}`));
+  S5A_DATA.forEach(q=>lines.push(`S5a-Q${q.n}: "${ans['s5a-'+q.n]||'—'}" → correct: ${q.ans.map(i=>q.opts[i]).join(' + ')}`));
+  S5B_DATA.forEach(q=>lines.push(`S5b-Q${q.n}: "${ans['s5b-'+q.n]||'—'}" ${S(chk(ans['s5b-'+q.n],q.ans),q.ans[0])}`));
+  const blob=new Blob([lines.join('\n')],{type:'text/plain;charset=utf-8'});
+  tgDoc(blob,`Correction_${stu.first}_${stu.last}_8th${stu.section}_V${stu.v}.txt`,
+    `📄 ${stu.first} ${stu.last}. | 8th ${stu.section} | V${stu.v} | ${sc.total}/${G} | ${grade}/5.0`);
+}
+
+// ===================== EXIT DETECTION =====================
+function setupExit(){
+  document.addEventListener('visibilitychange',()=>{if(document.hidden)tgAlert();});
+  window.addEventListener('blur',()=>tgAlert());
+  window.addEventListener('beforeunload',e=>{if(!submitted){tgAlert();e.preventDefault();e.returnValue='';}});
+}
+
+function showTab(name,btn){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>
