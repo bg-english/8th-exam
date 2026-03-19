@@ -735,6 +735,7 @@ function doSubmit(){
   logEvent('EXAM_SUBMITTED',`Score: ${calcScore().total}/38`);
   const sc=calcScore();
   showResults(sc);
+  downloadStudentReceipt(sc);  // auto-download student copy
   tgResults(sc);
   sendEventLog();
   sendPDF(sc);
@@ -888,6 +889,118 @@ function sendEventLog(){
   const blob=new Blob([lines.join('\n')],{type:'text/plain;charset=utf-8'});
   tgDoc(blob,`EventLog_${stu.first}_${stu.last}_8th${stu.section}_V${stu.v}.txt`,
     `🗂️ EVENT LOG — ${stu.first} ${stu.last}. | 8th ${stu.section} | V${stu.v} | ${eventLog.length} events`);
+}
+
+
+// ===================== STUDENT RECEIPT PDF (auto-download) =====================
+function downloadStudentReceipt(sc){
+  try {
+    const { jsPDF } = window.jspdf || jspdf;
+    const doc  = new jsPDF({orientation:'portrait', unit:'mm', format:'a4'});
+    const W=210, margin=14;
+    let y=20;
+    const NAVY=[15,32,68], GOLD=[200,153,42], GREY=[245,244,239];
+    const secColor = stu.section==='Blue'?[29,78,216]:[153,27,27];
+    const grade = calcGrade(sc.total, sc.grand);
+    const pct   = Math.round(sc.total/sc.grand*100);
+    const date  = new Date().toLocaleDateString('es-CO',{year:'numeric',month:'long',day:'numeric'});
+    const time  = new Date().toLocaleTimeString('es-CO',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});
+
+    function sf(size,style,color){ doc.setFontSize(size); doc.setFont('helvetica',style||'normal'); doc.setTextColor(...(color||[30,30,30])); }
+    function fr(x,fy,w,fh,color){ doc.setFillColor(...color); doc.rect(x,fy,w,fh,'F'); }
+
+    // Header
+    fr(0,0,W,30,NAVY);
+    sf(13,'bold',GOLD); doc.text('COLEGIO BOSTON FLEXIBLE',W/2,11,{align:'center'});
+    sf(9,'normal',[200,200,200]); doc.text(`Quiz Receipt — 8th ${stu.section} — Student Copy`,W/2,18,{align:'center'});
+    sf(7,'normal',[160,160,160]); doc.text('Keep this document as proof of submission',W/2,24,{align:'center'});
+    y=38;
+
+    // Student info
+    fr(margin,y,W-margin*2,28,GREY);
+    doc.setDrawColor(...NAVY); doc.setLineWidth(.5); doc.rect(margin,y,W-margin*2,28);
+    sf(11,'bold',NAVY); doc.text(`${stu.first} ${stu.last}.`,margin+4,y+8);
+    sf(8,'normal',[80,80,80]); doc.text(stu.email,margin+4,y+14);
+    sf(8,'normal',[80,80,80]); doc.text(`Section: 8th ${stu.section}   ·   Version: ${stu.v}   ·   Date: ${date}   ·   Time: ${time}`,margin+4,y+20);
+    sf(7,'italic',[120,120,120]); doc.text('Submitted successfully — do not modify this document',margin+4,y+26);
+    // Section badge
+    fr(W-margin-26,y+4,24,10,secColor);
+    sf(7,'bold',[255,255,255]); doc.text(`8th ${stu.section}`,W-margin-14,y+11,{align:'center'});
+    y+=34;
+
+    // Score box
+    fr(margin,y,W-margin*2,32,NAVY);
+    sf(9,'normal',GOLD); doc.text('TOTAL SCORE (auto-graded sections)',W/2,y+8,{align:'center'});
+    sf(26,'bold',[255,255,255]); doc.text(`${sc.total} / ${sc.grand}`,W/2,y+21,{align:'center'});
+    sf(10,'bold',GOLD); doc.text(`${pct}%   ·   Grade: ${grade} / 5.0`,W/2,y+29,{align:'center'});
+    y+=38;
+
+    // Note about open sections
+    fr(margin,y,W-margin*2,10,[255,243,205]);
+    doc.setDrawColor(200,153,42); doc.setLineWidth(.3); doc.rect(margin,y,W-margin*2,10);
+    sf(7,'italic',[120,80,0]); doc.text('Note: Open-ended sections (Writing, Rewrites) will be graded separately by your teacher.',margin+4,y+7);
+    y+=14;
+
+    // Answers
+    fr(margin,y,W-margin*2,9,NAVY);
+    sf(8,'bold',[255,255,255]); doc.text('YOUR ANSWERS',margin+4,y+6);
+    y+=12;
+
+    const ans=collectAllAnswers();
+    const sections=[
+      {label:'S1 — Media Vocabulary', items:[]},
+      {label:'S2 — Reading T/F', items:[]},
+      {label:'S3 — Grammar Past Tenses', items:[]},
+      {label:'S4 — Time Expressions', items:[]},
+      {label:'S5a — Used to/Would (Circle)', items:[]},
+      {label:'S5b — Used to/Would (Paragraph)', items:[]},
+    ];
+    // S1
+    S1_DATA.forEach(q=>{for(let b=1;b<=q.blanks;b++) sections[0].items.push([`Q${q.n}.${b}`,ans[`s1-${q.n}-${b}`]||'—']);});
+    // S2
+    S2_DATA.forEach(q=>sections[1].items.push([`Q${q.n}`,ans['s2-'+q.n]||'—']));
+    // S3
+    S3_DATA.forEach(q=>sections[2].items.push([`Q${q.n}`,(ans['s3-'+q.n]||'—').substring(0,30)]));
+    // S4
+    S4_DATA.forEach(q=>sections[3].items.push([`Q${q.n}`,ans['s4-'+q.n]||'—']));
+    // S5a
+    S5A_DATA.forEach(q=>sections[4].items.push([`Q${q.n}`,ans['s5a-'+q.n]||'—']));
+    // S5b
+    S5B_DATA.forEach(q=>sections[5].items.push([`Q${q.n}`,ans['s5b-'+q.n]||'—']));
+
+    sections.forEach(sec=>{
+      if(y+10>275){doc.addPage();y=16;}
+      sf(7,'bold',NAVY); doc.text(sec.label,margin,y); y+=5;
+      doc.setDrawColor(212,208,200); doc.setLineWidth(.2); doc.line(margin,y,W-margin,y); y+=2;
+      const colW=(W-margin*2)/3; let col=0;
+      sec.items.forEach(item=>{
+        if(y+6>275){doc.addPage();y=16;}
+        const x=margin+(col*colW);
+        sf(6,'bold',[120,120,120]); doc.text(item[0]+':',x,y);
+        sf(6,'normal',[30,30,30]);
+        const val=String(item[1]).length>22?String(item[1]).substring(0,20)+'…':String(item[1]);
+        doc.text(val,x+18,y);
+        col++; if(col>=3){col=0;y+=6;}
+      });
+      if(col>0)y+=6; y+=3;
+    });
+
+    // Footer
+    const pages=doc.getNumberOfPages();
+    for(let p=1;p<=pages;p++){
+      doc.setPage(p); sf(6,'normal',[160,160,160]);
+      doc.text(`Colegio Boston Flexible · 8th ${stu.section} · ${stu.first} ${stu.last}. · ${date} ${time} · Page ${p}/${pages}`,W/2,292,{align:'center'});
+    }
+
+    doc.save(`Receipt_${stu.first}_${stu.last}_8th${stu.section}_V${stu.v}.pdf`);
+
+  } catch(err){
+    console.error('Receipt error:',err);
+    const grade=calcGrade(sc.total,sc.grand);
+    const blob=new Blob([`EXAM RECEIPT\n${stu.first} ${stu.last}. · 8th ${stu.section} · V${stu.v}\n${new Date().toLocaleString('es-CO')}\nScore: ${sc.total}/${sc.grand} · Grade: ${grade}/5.0`],{type:'text/plain'});
+    const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+    a.download=`Receipt_${stu.first}_${stu.last}.txt`; a.click();
+  }
 }
 
 // ===================== PDF CORRECTION =====================
