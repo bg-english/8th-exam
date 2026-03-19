@@ -760,21 +760,31 @@ function tgStart(){
 function tgAlert(){
   if(!started||submitted)return;
   const now=Date.now();
-  if(now-lastAlert<20000)return;
-  lastAlert=now;alertN++;
   const tStr=`${String(Math.floor(secs/60)).padStart(2,'0')}:${String(secs%60).padStart(2,'0')}`;
-  if(alertN===1){
-    logEvent('EXIT_ATTEMPT_1',`Time left: ${tStr}`);
-    tg(`⚠️ INTENTO DE TRAMPA #1\n👤 ${stu.first} ${stu.last}.\n🏫 8th ${stu.section} · V${stu.v}\n⏱️ Tiempo restante: ${tStr}\n\n⚠️ Primera advertencia enviada al estudiante.`);
+
+  // Banner shows IMMEDIATELY — no debounce for student-facing messages
+  if(alertN===0){
+    // First time: warning banner instantly
     flashBanner(`⚠️ ADVERTENCIA: No salgas de la ventana del examen. Si lo intentas de nuevo, el examen se cerrará automáticamente, se notificará al profesor y perderás el examen.`,false);
-    captureScreen('attempt1',`📸 PANTALLA — Intento #1\n👤 ${stu.first} ${stu.last}. · 8th ${stu.section} · V${stu.v} · ⏱️ ${tStr}`);
-  } else {
+  } else if(alertN>=1){
+    // Already warned — close immediately, no debounce
     logEvent('EXIT_ATTEMPT_2_EXAM_CLOSED',`Time left: ${tStr} — Exam locked`);
     submitted=true;clearInterval(timerInt);
     captureScreen('attempt2',`📸 PANTALLA — Intento #2 (EXAMEN CERRADO)\n👤 ${stu.first} ${stu.last}. · 8th ${stu.section} · V${stu.v} · ⏱️ ${tStr}`,function(){sendEventLog();});
-    tg(`🚨 EXAMEN CERRADO POR TRAMPA\n👤 ${stu.first} ${stu.last}.\n🏫 8th ${stu.section} · V${stu.v}\n⏱️ Tiempo restante: ${tStr}\n\n❌ El examen fue cerrado automáticamente por intento de trampa #${alertN}.`);
+    tg(`🚨 EXAMEN CERRADO POR TRAMPA\n👤 ${stu.first} ${stu.last}.\n🏫 8th ${stu.section} · V${stu.v}\n⏱️ Tiempo restante: ${tStr}\n\n❌ El examen fue cerrado automáticamente por intento de trampa.`);
     flashBanner(`🚨 Examen cerrado. Se ha notificado al profesor. Has perdido el examen por intentar salir de la ventana.`,true);
     setTimeout(()=>lockExam(),3500);
+    return;
+  }
+
+  // Debounce only for Telegram on first attempt
+  if(now-lastAlert<20000)return;
+  lastAlert=now;alertN++;
+
+  if(alertN===1){
+    logEvent('EXIT_ATTEMPT_1',`Time left: ${tStr}`);
+    tg(`⚠️ INTENTO DE TRAMPA #1\n👤 ${stu.first} ${stu.last}.\n🏫 8th ${stu.section} · V${stu.v}\n⏱️ Tiempo restante: ${tStr}\n\n⚠️ Primera advertencia enviada al estudiante.`);
+    captureScreen('attempt1',`📸 PANTALLA — Intento #1\n👤 ${stu.first} ${stu.last}. · 8th ${stu.section} · V${stu.v} · ⏱️ ${tStr}`);
   }
 }
 function tgResults(sc){
