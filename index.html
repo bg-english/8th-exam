@@ -14,6 +14,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
+/* ===== EXAM LOCKED STATE ===== */
+.exam-locked,.exam-locked *{pointer-events:none!important;-webkit-pointer-events:none!important;user-select:none!important;-webkit-user-select:none!important;-moz-user-select:none!important;-ms-user-select:none!important;cursor:not-allowed!important;}
+#unlock-inp,#unlock-inp *{pointer-events:auto!important;cursor:text!important;}
 :root{--navy:#0f2044;--gold:#c8992a;--blue:#1d4ed8;--red:#991b1b;--green:#16a34a;--bg:#f5f4ef;--border:#d4d0c8;--text:#1a1a1a;--muted:#6b7280;--lblue:#dbeafe;--lred:#fee2e2;}
 *{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0;}
 html{-webkit-text-size-adjust:100%;}
@@ -533,6 +536,8 @@ function launchExam(){
   document.getElementById('student-info').innerHTML=
     `${stu.first} ${stu.last}. <span class="ver-badge ${secColor}">8th ${stu.section} · V${stu.v}</span>`;
   started=true;
+  enterFullscreen();
+  setupFullscreen();
   logEvent('EXAM_STARTED',`8th ${stu.section} V${stu.v}`);
   buildAll();
   // startTimer(); // timer disabled
@@ -544,10 +549,23 @@ function launchExam(){
 const h=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 function norm(s){
   return String(s).toLowerCase().trim()
-    .replace(/i'm/g,'i am').replace(/i've/g,'i have')
-    .replace(/'ve/g,' have').replace(/'m/g,' am').replace(/'s/g,' is').replace(/'t/g,'t')
-    .replace(/did not/g,"didn't").replace(/do not/g,"don't")
-    .replace(/would not/g,"wouldn't").replace(/used to not/g,"didn't use to")
+    .replace(/i'm/g,"i am").replace(/i've/g,"i have").replace(/i'd/g,"i had")
+    .replace(/he's/g,"he is").replace(/she's/g,"she is").replace(/it's/g,"it is")
+    .replace(/they're/g,"they are").replace(/we're/g,"we are").replace(/you're/g,"you are")
+    .replace(/they've/g,"they have").replace(/we've/g,"we have").replace(/you've/g,"you have")
+    .replace(/they'd/g,"they had").replace(/we'd/g,"we had").replace(/you'd/g,"you had")
+    .replace(/'ve/g," have").replace(/'re/g," are").replace(/'m/g," am")
+    .replace(/won't/g,"will not").replace(/can't/g,"cannot")
+    .replace(/n't/g," not")
+    .replace(/have not/g,"havenot").replace(/has not/g,"hasnot")
+    .replace(/had not/g,"hadnot").replace(/do not/g,"donot")
+    .replace(/does not/g,"doesnot").replace(/did not/g,"didnot")
+    .replace(/will not/g,"willnot").replace(/would not/g,"wouldnot")
+    .replace(/should not/g,"shouldnot").replace(/could not/g,"couldnot")
+    .replace(/is not/g,"isnot").replace(/are not/g,"arenot")
+    .replace(/was not/g,"wasnot").replace(/were not/g,"werenot")
+    .replace(/cannot/g,"cannot")
+    .replace(/'/g,"").replace(/’/g,"")
     .replace(/\s+/g,' ').trim();
 }
 function chk(student,correct){
@@ -745,6 +763,7 @@ function doSubmit(forced){
   if(!forced&&!confirm('Submit your quiz now? You cannot make changes after submitting.'))return;
   submitted=true;
   clearInterval(timerInt);
+  try{ if(document.exitFullscreen) document.exitFullscreen(); else if(document.webkitExitFullscreen) document.webkitExitFullscreen(); }catch(e){}
   logEvent('EXAM_SUBMITTED',`Score: ${calcScore().total}/38`);
   const sc=calcScore();
   showResults(sc);
@@ -1202,19 +1221,28 @@ function pauseExam(tStr){
   paused = true;
   clearInterval(timerInt);
 
-  // Freeze all inputs
-  document.querySelectorAll('input,select,button').forEach(function(el){
+  // Lock entire exam with CSS — covers dynamically built inputs too
+  var examScreen = document.getElementById('exam-screen');
+  if(examScreen) examScreen.classList.add('exam-locked');
+  var submitBar = document.getElementById('submit-bar');
+  if(submitBar){
+    submitBar.classList.add('exam-locked');
+    submitBar.classList.remove('active');
+  }
+  var timerBar = document.getElementById('timer-bar');
+  if(timerBar) timerBar.classList.add('exam-locked');
+  // Also disable all inputs as belt-and-suspenders
+  document.querySelectorAll('input,select,button,label,textarea').forEach(function(el){
     if(el.id==='unlock-inp') return;
     el.disabled = true;
+    el.setAttribute('readonly','readonly');
     el.style.pointerEvents = 'none';
-    el.style.opacity = '0.5';
+    el.style.cursor = 'not-allowed';
   });
-
-  document.getElementById('submit-bar').classList.remove('active');
 
   var overlay = document.createElement('div');
   overlay.id = 'pause-overlay';
-  overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(15,32,68,0.97);z-index:300;display:flex;align-items:center;justify-content:center;padding:20px;flex-direction:column;text-align:center;';
+  overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(15,32,68,0.97);z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px;flex-direction:column;text-align:center;';
   overlay.innerHTML =
     '<div style="max-width:420px;width:100%;">'
     + '<div style="font-size:3rem;margin-bottom:16px;">\u23F8\uFE0F</div>'
@@ -1241,18 +1269,69 @@ function tryUnlock(){
   if(!inp) return;
   var val = inp.value.trim().toUpperCase();
   if(val === UNLOCK_CODE){
+    // Remove overlay
     var ov = document.getElementById('pause-overlay');
     if(ov) ov.parentNode.removeChild(ov);
-    logEvent('TEACHER_UNLOCKED','Teacher entered unlock code — auto-submitting');
-    tg('\uD83D\uDD13 CODIGO INGRESADO POR PROFESOR\n\uD83D\uDC64 ' + stu.first + ' ' + stu.last + '.\n\uD83D\uDCCB Version ' + stu.v + '\n\n\u26A1 Enviando examen con respuestas registradas...');
-    setTimeout(function(){
-      submitted = false;
-      doSubmit(true);
-    }, 1500);
+
+    // Re-enable everything that was locked
+    ['exam-screen','submit-bar','timer-bar'].forEach(function(id){
+      var el = document.getElementById(id);
+      if(el) el.classList.remove('exam-locked');
+    });
+    document.querySelectorAll('input,select,button,label,textarea').forEach(function(el){
+      if(el.id === 'unlock-inp') return;
+      el.disabled = false;
+      el.removeAttribute('readonly');
+      el.style.pointerEvents = '';
+      el.style.cursor = '';
+    });
+
+    // Restore submit bar
+    var sb = document.getElementById('submit-bar');
+    if(sb) sb.classList.add('active');
+
+    paused = false;
+    enterFullscreen();
+
+    logEvent('TEACHER_UNLOCKED', 'Inputs re-enabled — student can edit and submit');
+    tg('\uD83D\uDD13 DESBLOQUEADO POR PROFESOR\n\uD83D\uDC64 ' + stu.first + ' ' + stu.last + '.\n\uD83D\uDCCB Version ' + stu.v + '\n\n\u270F\uFE0F Alumno puede editar y entregar.');
+
   } else if(val.length >= UNLOCK_CODE.length){
     err.textContent = 'Codigo incorrecto. Intentalo de nuevo.';
     inp.value = '';
   }
+}
+
+
+// ===================== FULLSCREEN =====================
+function enterFullscreen(){
+  var el = document.documentElement;
+  try {
+    if(el.requestFullscreen)            el.requestFullscreen();
+    else if(el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+    else if(el.mozRequestFullScreen)    el.mozRequestFullScreen();
+    else if(el.msRequestFullscreen)     el.msRequestFullscreen();
+  } catch(e){}
+}
+
+function exitFullscreenDetected(){
+  if(!started || submitted || paused) return;
+  var isFs = document.fullscreenElement
+          || document.webkitFullscreenElement
+          || document.mozFullScreenElement
+          || document.msFullscreenElement;
+  if(!isFs){
+    // Exited fullscreen — treat as exit attempt
+    tgAlert();
+    flashBanner('\u26A0\uFE0F Por favor no salgas del modo pantalla completa.', false);
+  }
+}
+
+function setupFullscreen(){
+  document.addEventListener('fullscreenchange',       exitFullscreenDetected);
+  document.addEventListener('webkitfullscreenchange', exitFullscreenDetected);
+  document.addEventListener('mozfullscreenchange',    exitFullscreenDetected);
+  document.addEventListener('MSFullscreenChange',     exitFullscreenDetected);
 }
 
 // ===================== EXIT DETECTION =====================
@@ -1271,4 +1350,3 @@ function showTab(name,btn){
 </script>
 </body>
 </html>
-
