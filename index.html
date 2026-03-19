@@ -141,6 +141,42 @@ body{top:0!important;}
   #exam-screen{padding:24px 20px 100px;}
   .sc{padding:26px 24px;}
 }
+
+/* ===== RESULTS MODAL - EXPANDED ===== */
+#res-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.82);z-index:200;-webkit-box-align:flex-start;-ms-flex-align:flex-start;align-items:flex-start;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;padding:12px;overflow-y:auto;}
+#res-overlay.active{display:-webkit-box;display:-ms-flexbox;display:flex;}
+.res-card{background:#fff;border-radius:16px;padding:24px 18px;max-width:520px;width:100%;margin:auto;}
+.res-title{font-size:1.3rem;font-weight:700;color:var(--navy);margin-bottom:4px;text-align:center;}
+.res-sub{font-size:.8rem;color:var(--muted);margin-bottom:14px;text-align:center;}
+.res-grade-box{background:var(--navy);border-radius:12px;padding:16px;text-align:center;margin-bottom:14px;}
+.res-grade-num{font-size:3rem;font-weight:700;color:var(--gold);line-height:1;}
+.res-grade-lbl{font-size:.75rem;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.1em;margin-top:4px;}
+.res-grade-pct{font-size:1rem;color:rgba(255,255,255,.8);margin-top:6px;}
+.res-section-scores{display:-webkit-box;display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;margin:0 -4px 14px;}
+.res-si{-webkit-box-flex:1;-ms-flex:1 1 80px;flex:1 1 80px;background:var(--bg);border-radius:8px;padding:9px 8px;border:1px solid var(--border);margin:4px;text-align:center;}
+.res-si-lbl{font-size:.65rem;color:var(--muted);margin-bottom:3px;text-transform:uppercase;letter-spacing:.05em;}
+.res-si-val{font-size:1.1rem;font-weight:700;color:var(--navy);}
+/* Answers breakdown */
+.res-answers{margin-bottom:16px;}
+.res-ans-title{font-size:.8rem;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px;padding-bottom:6px;border-bottom:2px solid var(--bg);}
+.ans-row{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:flex-start;-ms-flex-align:flex-start;align-items:flex-start;padding:5px 0;border-bottom:1px solid var(--bg);font-size:.8rem;}
+.ans-row:last-child{border-bottom:none;}
+.ans-num{width:28px;min-width:28px;color:var(--muted);font-size:.72rem;padding-top:1px;}
+.ans-q{-webkit-box-flex:1;-ms-flex:1;flex:1;color:#444;line-height:1.4;padding-right:6px;}
+.ans-student{font-weight:600;min-width:70px;text-align:right;padding-right:6px;}
+.ans-ok{color:#16a34a;}
+.ans-wrong{color:#dc2626;}
+.ans-correct{color:#16a34a;font-size:.72rem;padding-left:4px;}
+/* Completeness bar */
+.res-complete{margin-bottom:16px;}
+.res-complete-lbl{font-size:.78rem;color:var(--muted);margin-bottom:5px;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;}
+.res-bar{height:10px;background:var(--border);border-radius:5px;overflow:hidden;}
+.res-bar-fill{height:100%;border-radius:5px;-webkit-transition:width .5s;transition:width .5s;}
+.res-close-btn{display:block;width:100%;padding:14px;background:var(--navy);color:var(--gold);border:none;border-radius:10px;font-size:1rem;font-weight:700;font-family:inherit;cursor:pointer;min-height:48px;-webkit-tap-highlight-color:transparent;touch-action:manipulation;margin-top:6px;}
+@media(max-width:480px){
+  .res-grade-num{font-size:2.4rem;}
+  .res-card{padding:18px 14px;}
+}
 </style>
 </head>
 <body class="notranslate">
@@ -270,7 +306,29 @@ body{top:0!important;}
 
 <div id="res-overlay">
   <div class="res-card">
-    <div class="res-title">📋 Quiz Submitted</div>
+    <div class="res-title">✅ Quiz Submitted</div>
+    <div class="res-sub" id="res-name"></div>
+    <div class="res-grade-box">
+      <div class="res-grade-num" id="res-grade">—</div>
+      <div class="res-grade-lbl">Grade (auto sections) / 5.0</div>
+      <div class="res-grade-pct" id="res-pct">—</div>
+    </div>
+    <div class="res-section-scores" id="res-sections"></div>
+    <div class="res-complete">
+      <div class="res-complete-lbl">
+        <span>Completeness</span>
+        <span id="res-complete-pct">—</span>
+      </div>
+      <div class="res-bar"><div class="res-bar-fill" id="res-bar-fill" style="width:0%;background:#16a34a;"></div></div>
+    </div>
+    <div class="res-answers">
+      <div class="res-ans-title">Your Answers</div>
+      <div id="res-ans-list"></div>
+    </div>
+    <div style="font-size:.75rem;color:var(--muted);text-align:center;margin-bottom:10px;">Open-ended sections (Writing, Rewrites) graded separately by teacher.</div>
+    <button class="res-close-btn" onclick="closeResults()">Close &amp; Return to Start</button>
+  </div>
+</div>
     <div class="res-sub" id="res-name"></div>
     <div class="score-big" id="res-score">—</div>
     <div class="score-pct" id="res-pct"></div>
@@ -519,7 +577,7 @@ function doLogin(){
   errEl.textContent='Verifying access...';
   blacklistCheck(s.code,function(isBlacklisted){
     if(isBlacklisted){
-      errEl.textContent='🚫 Este código ha sido desactivado por el profesor. Habla con tu profesor para continuar.';
+      errEl.textContent='🚫 This code has been deactivated by your teacher. Please speak with your teacher to continue.';
     } else {
       errEl.textContent='';
       launchExam();
@@ -774,17 +832,75 @@ function doSubmit(forced){
 }
 
 function showResults(sc){
-  const grade=calcGrade(sc.total,sc.grand);
-  const pct=Math.round(sc.total/sc.grand*100);
-  document.getElementById('res-name').textContent=`${stu.first} ${stu.last}. · 8th ${stu.section} · V${stu.v}`;
-  document.getElementById('res-score').textContent=`${sc.total} / ${sc.grand}`;
-  document.getElementById('res-pct').textContent=`${pct}% · Grade: ${grade} / 5.0`;
-  document.getElementById('r-s1').textContent=`${sc.s1}/8`;
-  document.getElementById('r-s2').textContent=`${sc.s2}/5`;
-  document.getElementById('r-s3').textContent=`${sc.s3}/6`;
-  document.getElementById('r-s4').textContent=`${sc.s4}/10`;
-  document.getElementById('r-s5').textContent=`${sc.s5}/9`;
+  const pct   = Math.round(sc.total/sc.grand*100);
+  const grade = calcGrade(sc.total,sc.grand);
+  const done  = countDone();
+  const total_items = 27;
+  const completePct = Math.round(done/total_items*100);
+  const ans   = collectAllAnswers();
+
+  document.getElementById('res-name').textContent  = stu.first+' '+stu.last+'. · 8th '+stu.section+' · V'+stu.v;
+  document.getElementById('res-grade').textContent  = grade;
+  document.getElementById('res-pct').textContent    = sc.total+' / '+sc.grand+' pts ('+pct+'%)';
+  document.getElementById('res-complete-pct').textContent = completePct+'%';
+
+  var fill = document.getElementById('res-bar-fill');
+  fill.style.width = completePct+'%';
+  fill.style.background = completePct>=80?'#16a34a':completePct>=50?'#f59e0b':'#dc2626';
+
+  var secs = [
+    {lbl:'S1 Vocab',   val:sc.s1, tot:8},
+    {lbl:'S2 Reading', val:sc.s2, tot:5},
+    {lbl:'S3 Grammar', val:sc.s3, tot:6},
+    {lbl:'S4 Time',    val:sc.s4, tot:10},
+    {lbl:'S5 Used to', val:sc.s5, tot:9},
+  ];
+  var secHtml='';
+  secs.forEach(function(s){
+    secHtml+='<div class="res-si"><div class="res-si-lbl">'+s.lbl+'</div>'
+             +'<div class="res-si-val">'+s.val+'/'+s.tot+'</div></div>';
+  });
+  document.getElementById('res-sections').innerHTML=secHtml;
+
+  var h2=function(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');};
+  var rows='';
+  var addRow=function(num,qtext,studentAns,correctAns,isOk){
+    var color=isOk?'ans-ok':'ans-wrong', icon=isOk?'✓':'✗';
+    var correctHtml=isOk?'':' <span class="ans-correct">→ '+h2(correctAns)+'</span>';
+    rows+='<div class="ans-row">'
+        +'<span class="ans-num">'+num+'.</span>'
+        +'<span class="ans-q">'+h2(qtext.length>45?qtext.substring(0,43)+'…':qtext)+'</span>'
+        +'<span class="ans-student '+color+'">'+icon+' '+h2(String(studentAns||'—').substring(0,20))+correctHtml+'</span>'
+        +'</div>';
+  };
+
+  S1_DATA.forEach(function(s){for(var b=1;b<=s.blanks;b++) addRow('S1.'+s.n+'.'+b,'Blank '+b,ans['s1-'+s.n+'-'+b]||'—',s.ans[b-1],chk(ans['s1-'+s.n+'-'+b],s.ans[b-1]));});
+  S2_DATA.forEach(function(s){ addRow('S2.'+s.n,s.txt,ans['s2-'+s.n]||'—',s.ans,ans['s2-'+s.n]===s.ans); });
+  S3_DATA.forEach(function(q){ addRow('S3.'+q.n,q.prompt,(ans['s3-'+q.n]||'—').substring(0,30),q.ans,(ans['s3-'+q.n]||'').trim()[0]===q.ans); });
+  S4_DATA.forEach(function(q){ addRow('S4.'+q.n,q.txt,ans['s4-'+q.n]||'—',q.ans[0],chk(ans['s4-'+q.n],q.ans)); });
+  S5A_DATA.forEach(function(q){
+    var selected=q.opts.filter(function(_,i){return document.getElementById('s5a-'+q.n+'-'+i)&&document.getElementById('s5a-'+q.n+'-'+i).classList.contains('sel');});
+    var ok=q.ans.length===selected.length&&q.ans.every(function(x){return selected.map(function(_,i){return i;}).includes(x);});
+    addRow('S5a.'+q.n,q.txt,selected.join(' + ')||'—',q.ans.map(function(i){return q.opts[i];}).join(' + '),ok);
+  });
+  S5B_DATA.forEach(function(q){ addRow('S5b.'+q.n,q.hint,ans['s5b-'+q.n]||'—',q.ans[0],chk(ans['s5b-'+q.n],q.ans)); });
+
+  document.getElementById('res-ans-list').innerHTML=rows;
   document.getElementById('res-overlay').classList.add('active');
+}
+
+function closeResults(){
+  document.getElementById('res-overlay').classList.remove('active');
+  document.getElementById('exam-screen').style.display  = 'none';
+  document.getElementById('submit-bar').classList.remove('active');
+  document.getElementById('timer-bar').classList.remove('active');
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('sec-blue') && document.getElementById('sec-blue').classList.remove('selected');
+  document.getElementById('sec-red')  && document.getElementById('sec-red').classList.remove('selected');
+  document.getElementById('inp-email').value = '';
+  document.getElementById('inp-code').value  = '';
+  document.getElementById('login-err').textContent = '';
+  selectedSection = null;
 }
 
 // ===================== TIMER =====================
@@ -827,15 +943,15 @@ function tgAlert(){
   // Banner shows IMMEDIATELY — no debounce for student-facing messages
   if(alertN===0){
     // First time: warning banner instantly
-    flashBanner(`⚠️ ADVERTENCIA: No salgas de la ventana del examen. Si lo intentas de nuevo, el examen se cerrará automáticamente, se notificará al profesor y perderás el examen.`,false);
+    flashBanner(`⚠️ WARNING: Do not leave the exam window. If you try again, the exam will be closed automatically, your teacher will be notified, and you will lose the exam.`,false);
   } else if(alertN>=1){
     // Already warned — close immediately, no debounce
     logEvent('EXIT_ATTEMPT_2_EXAM_PAUSED',`Time left: ${tStr} — Exam paused`);
     submitted=true;clearInterval(timerInt);
     blacklistAdd(stu.code,`${stu.first} ${stu.last}.`,`8th ${stu.section}`,`Intento de trampa #2 — ${tStr} restante`);
-    captureScreen('attempt2',`📸 PANTALLA — Intento #2 (EXAMEN CERRADO)\n👤 ${stu.first} ${stu.last}. · 8th ${stu.section} · V${stu.v} · ⏱️ ${tStr}`,function(){sendEventLog();});
+    captureScreen('attempt2',`📸 SCREEN CAPTURE — Attempt #2 (EXAM PAUSED)\n👤 ${stu.first} ${stu.last}. · 8th ${stu.section} · V${stu.v} · ⏱️ ${tStr}`,function(){sendEventLog();});
     tg(`⏸️ EXAMEN PAUSADO — TRAMPA #2\n👤 ${stu.first} ${stu.last}.\n🏫 8th ${stu.section} · V${stu.v}\n⏱️ Tiempo restante: ${tStr}\n\n❌ El examen fue cerrado automáticamente por intento de trampa.`);
-    flashBanner(`⏸️ Examen pausado. Notifica a tu profesor inmediatamente.`,true);
+    flashBanner(`⏸️ Exam paused. Notify your teacher immediately.`,true);
     pauseExam(tStr);
     return;
   }
@@ -847,7 +963,7 @@ function tgAlert(){
   if(alertN===1){
     logEvent('EXIT_ATTEMPT_1',`Time left: ${tStr}`);
     tg(`⚠️ INTENTO DE TRAMPA #1\n👤 ${stu.first} ${stu.last}.\n🏫 8th ${stu.section} · V${stu.v}\n⏱️ Tiempo restante: ${tStr}\n\n⚠️ Primera advertencia enviada al estudiante.`);
-    captureScreen('attempt1',`📸 PANTALLA — Intento #1\n👤 ${stu.first} ${stu.last}. · 8th ${stu.section} · V${stu.v} · ⏱️ ${tStr}`);
+    captureScreen('attempt1',`📸 SCREEN CAPTURE — Attempt #1\n👤 ${stu.first} ${stu.last}. · 8th ${stu.section} · V${stu.v} · ⏱️ ${tStr}`);
   }
 }
 function tgResults(sc){
@@ -869,9 +985,9 @@ function lockExam(){
   document.getElementById('login-screen').style.display='flex';
   const card=document.querySelector('.login-card');
   card.innerHTML=`<div style="font-size:3rem;margin-bottom:12px">🚨</div>
-    <div style="font-size:1.3rem;font-weight:700;color:#dc2626;margin-bottom:10px">Examen Cerrado</div>
-    <div style="font-size:.9rem;color:#444;line-height:1.65;margin-bottom:14px">Tu examen fue cerrado automáticamente porque intentaste salir de la ventana más de una vez.<br><br>Se ha enviado una notificación a tu profesor con el registro completo.</div>
-    <div style="font-size:.8rem;color:#999;">Habla con tu profesor para continuar.</div>`;
+    <div style="font-size:1.3rem;font-weight:700;color:#dc2626;margin-bottom:10px">Exam Closed</div>
+    <div style="font-size:.9rem;color:#444;line-height:1.65;margin-bottom:14px">Your exam was automatically closed because you tried to leave the window more than once.<br><br>Se ha enviado una notificación a tu profesor con el registro completo.</div>
+    <div style="font-size:.8rem;color:#999;">Talk to your teacher to continue.</div>`;
 }
 
 // ===================== SCREEN CAPTURE =====================
@@ -923,6 +1039,13 @@ function sendEventLog(){
     `🗂️ EVENT LOG — ${stu.first} ${stu.last}. | 8th ${stu.section} | V${stu.v} | ${eventLog.length} events`);
 }
 
+
+
+// ===================== iOS DETECTION =====================
+function isiOS(){
+  return /iPad|iPhone|iPod/.test(navigator.userAgent)
+      || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+}
 
 // ===================== STUDENT RECEIPT PDF (auto-download) =====================
 function downloadStudentReceipt(sc){
@@ -1025,6 +1148,38 @@ function downloadStudentReceipt(sc){
     }
 
     doc.save(`Receipt_${stu.first}_${stu.last}_8th${stu.section}_V${stu.v}.pdf`);
+
+    // iOS Safari: file opens in browser tab, not downloaded automatically
+    if(isiOS()){
+      setTimeout(function(){
+        var msg = document.createElement('div');
+        msg.id = 'ios-save-msg';
+        msg.style.cssText = [
+          'position:fixed','top:0','left:0','right:0','bottom:0',
+          'background:rgba(15,32,68,0.97)','z-index:99998',
+          'display:flex','align-items:center','justify-content:center',
+          'padding:24px','flex-direction:column','text-align:center'
+        ].join(';');
+        msg.innerHTML =
+          '<div style="max-width:380px;width:100%;">'
+          + '<div style="font-size:2.5rem;margin-bottom:14px;">📄</div>'
+          + '<div style="font-size:1.2rem;font-weight:700;color:#c8992a;margin-bottom:12px;">Save Your Receipt</div>'
+          + '<div style="font-size:.9rem;color:rgba(255,255,255,.85);line-height:1.7;margin-bottom:20px;">'
+          + 'Your exam receipt has opened in a new tab.<br><br>'
+          + '<strong style="color:#fca5a5;">Important:</strong> To save it on your iPhone/iPad:<br><br>'
+          + '1. Go to the PDF tab that just opened<br>'
+          + '2. Tap the <strong style="color:#c8992a;">Share button</strong> (box with arrow ↑)<br>'
+          + '3. Tap <strong style="color:#c8992a;">"Save to Files"</strong><br>'
+          + '4. Come back here when done'
+          + '</div>'
+          + '<button onclick="document.getElementById(\'ios-save-msg\').remove()" '
+          + 'style="padding:14px 32px;background:#c8992a;color:#0f2044;border:none;'
+          + 'border-radius:10px;font-size:1rem;font-weight:700;font-family:inherit;'
+          + 'cursor:pointer;min-height:48px;width:100%;">I Saved It ✓</button>'
+          + '</div>';
+        document.body.appendChild(msg);
+      }, 800);
+    }
 
   } catch(err){
     console.error('Receipt error:',err);
@@ -1246,15 +1401,15 @@ function pauseExam(tStr){
   overlay.innerHTML =
     '<div style="max-width:420px;width:100%;">'
     + '<div style="font-size:3rem;margin-bottom:16px;">\u23F8\uFE0F</div>'
-    + '<div style="font-size:1.4rem;font-weight:700;color:#c8992a;margin-bottom:10px;">Examen Pausado</div>'
+    + '<div style="font-size:1.4rem;font-weight:700;color:#c8992a;margin-bottom:10px;">Exam Paused</div>'
     + '<div style="font-size:.92rem;color:rgba(255,255,255,.85);line-height:1.65;margin-bottom:20px;">'
-    + 'Tu examen ha sido pausado porque intentaste salir de la ventana.<br><br>'
-    + '<strong style="color:#fca5a5;">Tus respuestas han sido conservadas.</strong><br><br>'
-    + 'Levanta la mano y notifica a tu profesor. El ingresara el codigo para que puedas entregar lo que llevas.'
+    + 'Your exam has been paused because you tried to leave the window.<br><br>'
+    + '<strong style="color:#fca5a5;">Your answers have been saved.</strong><br><br>'
+    + 'Raise your hand and notify your teacher. They will enter the code so you can submit your work.'
     + '</div>'
     + '<div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:16px;margin-bottom:16px;">'
-    + '<div style="font-size:.72rem;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;">Codigo del Profesor</div>'
-    + '<input id="unlock-inp" type="password" style="width:100%;padding:12px;border:2px solid rgba(255,255,255,.2);border-radius:8px;background:rgba(255,255,255,.05);color:#fff;font-size:1.1rem;text-align:center;letter-spacing:.15em;outline:none;font-family:monospace;" placeholder="Ingresa el codigo" oninput="tryUnlock()">'
+    + '<div style="font-size:.72rem;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;">Teacher Code</div>'
+    + '<input id="unlock-inp" type="password" style="width:100%;padding:12px;border:2px solid rgba(255,255,255,.2);border-radius:8px;background:rgba(255,255,255,.05);color:#fff;font-size:1.1rem;text-align:center;letter-spacing:.15em;outline:none;font-family:monospace;" placeholder="Enter code" oninput="tryUnlock()">'
     + '<div id="unlock-err" style="color:#fca5a5;font-size:.78rem;margin-top:8px;min-height:18px;"></div>'
     + '</div>'
     + '<div style="font-size:.72rem;color:rgba(255,255,255,.3);">Tiempo restante al pausar: ' + tStr + '</div>'
@@ -1291,13 +1446,15 @@ function tryUnlock(){
     if(sb) sb.classList.add('active');
 
     paused = false;
+    lastAlert = 0;  // reset debounce so next exit is detected immediately
+    // alertN stays >= 1 — next exit goes straight to pause, no warning
     enterFullscreen();
 
     logEvent('TEACHER_UNLOCKED', 'Inputs re-enabled — student can edit and submit');
     tg('\uD83D\uDD13 DESBLOQUEADO POR PROFESOR\n\uD83D\uDC64 ' + stu.first + ' ' + stu.last + '.\n\uD83D\uDCCB Version ' + stu.v + '\n\n\u270F\uFE0F Alumno puede editar y entregar.');
 
   } else if(val.length >= UNLOCK_CODE.length){
-    err.textContent = 'Codigo incorrecto. Intentalo de nuevo.';
+    err.textContent = 'Incorrect code. Try again.';
     inp.value = '';
   }
 }
@@ -1323,7 +1480,7 @@ function exitFullscreenDetected(){
   if(!isFs){
     // Exited fullscreen — treat as exit attempt
     tgAlert();
-    flashBanner('\u26A0\uFE0F Por favor no salgas del modo pantalla completa.', false);
+    flashBanner('\u26A0\uFE0F Please do not exit full screen mode.', false);
   }
 }
 
