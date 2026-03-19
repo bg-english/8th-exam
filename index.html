@@ -329,11 +329,6 @@ body{top:0!important;}
     <button class="res-close-btn" onclick="closeResults()">Close &amp; Return to Start</button>
   </div>
 </div>
-    <div class="res-sub" id="res-name"></div>
-    <div class="score-big" id="res-score">—</div>
-    <div class="score-pct" id="res-pct"></div>
-    <div class="score-grid">
-      <div class="si"><div class="si-lbl">Vocab (S1)</div><div class="si-val" id="r-s1">—</div></div>
       <div class="si"><div class="si-lbl">Reading (S2)</div><div class="si-val" id="r-s2">—</div></div>
       <div class="si"><div class="si-lbl">Grammar (S3)</div><div class="si-val" id="r-s3">—</div></div>
       <div class="si"><div class="si-lbl">Time Expr (S4)</div><div class="si-val" id="r-s4">—</div></div>
@@ -594,8 +589,6 @@ function launchExam(){
   document.getElementById('student-info').innerHTML=
     `${stu.first} ${stu.last}. <span class="ver-badge ${secColor}">8th ${stu.section} · V${stu.v}</span>`;
   started=true;
-  enterFullscreen();
-  setupFullscreen();
   logEvent('EXAM_STARTED',`8th ${stu.section} V${stu.v}`);
   buildAll();
   // startTimer(); // timer disabled
@@ -940,31 +933,18 @@ function tgAlert(){
   const now=Date.now();
   const tStr=`${String(Math.floor(secs/60)).padStart(2,'0')}:${String(secs%60).padStart(2,'0')}`;
 
-  // Banner shows IMMEDIATELY — no debounce for student-facing messages
   if(alertN===0){
-    // First time: warning banner instantly
-    flashBanner(`⚠️ WARNING: Do not leave the exam window. If you try again, the exam will be closed automatically, your teacher will be notified, and you will lose the exam.`,false);
-  } else if(alertN>=1){
-    // Already warned — close immediately, no debounce
-    logEvent('EXIT_ATTEMPT_2_EXAM_PAUSED',`Time left: ${tStr} — Exam paused`);
-    submitted=true;clearInterval(timerInt);
-    blacklistAdd(stu.code,`${stu.first} ${stu.last}.`,`8th ${stu.section}`,`Intento de trampa #2 — ${tStr} restante`);
-    captureScreen('attempt2',`📸 SCREEN CAPTURE — Attempt #2 (EXAM PAUSED)\n👤 ${stu.first} ${stu.last}. · 8th ${stu.section} · V${stu.v} · ⏱️ ${tStr}`,function(){sendEventLog();});
-    tg(`⏸️ EXAMEN PAUSADO — TRAMPA #2\n👤 ${stu.first} ${stu.last}.\n🏫 8th ${stu.section} · V${stu.v}\n⏱️ Tiempo restante: ${tStr}\n\n❌ El examen fue cerrado automáticamente por intento de trampa.`);
-    flashBanner(`⏸️ Exam paused. Notify your teacher immediately.`,true);
-    pauseExam(tStr);
-    return;
+    flashBanner('\u26A0\uFE0F WARNING: Do not leave the exam window. Your teacher has been notified.',false);
+  } else {
+    flashBanner('\u26A0\uFE0F Exit attempt detected. Your teacher has been notified.',false);
   }
 
-  // Debounce only for Telegram on first attempt
   if(now-lastAlert<20000)return;
   lastAlert=now;alertN++;
 
-  if(alertN===1){
-    logEvent('EXIT_ATTEMPT_1',`Time left: ${tStr}`);
-    tg(`⚠️ INTENTO DE TRAMPA #1\n👤 ${stu.first} ${stu.last}.\n🏫 8th ${stu.section} · V${stu.v}\n⏱️ Tiempo restante: ${tStr}\n\n⚠️ Primera advertencia enviada al estudiante.`);
-    captureScreen('attempt1',`📸 SCREEN CAPTURE — Attempt #1\n👤 ${stu.first} ${stu.last}. · 8th ${stu.section} · V${stu.v} · ⏱️ ${tStr}`);
-  }
+  logEvent('EXIT_ATTEMPT_'+alertN,`Time left: ${tStr}`);
+  tg(`\u26A0\uFE0F EXIT ATTEMPT #${alertN}\n\uD83D\uDC64 ${stu.first} ${stu.last}.\n\uD83C\uDFEB 8th ${stu.section} · V${stu.v}\n\u23F1\uFE0F Time remaining: ${tStr}`);
+  captureScreen('attempt'+alertN,`\uD83D\uDCF8 SCREEN — Exit Attempt #${alertN}\n${stu.first} ${stu.last}. · 8th ${stu.section} · V${stu.v} · ${tStr}`);
 }
 function tgResults(sc){
   const grade=calcGrade(sc.total,sc.grand);
@@ -1448,7 +1428,7 @@ function tryUnlock(){
     paused = false;
     lastAlert = 0;  // reset debounce so next exit is detected immediately
     // alertN stays >= 1 — next exit goes straight to pause, no warning
-    enterFullscreen();
+
 
     logEvent('TEACHER_UNLOCKED', 'Inputs re-enabled — student can edit and submit');
     tg('\uD83D\uDD13 DESBLOQUEADO POR PROFESOR\n\uD83D\uDC64 ' + stu.first + ' ' + stu.last + '.\n\uD83D\uDCCB Version ' + stu.v + '\n\n\u270F\uFE0F Alumno puede editar y entregar.');
@@ -1472,13 +1452,12 @@ function enterFullscreen(){
 }
 
 function exitFullscreenDetected(){
-  if(!started || submitted || paused) return;
+  if(!started || submitted || paused || fsGracePeriod) return;
   var isFs = document.fullscreenElement
           || document.webkitFullscreenElement
           || document.mozFullScreenElement
           || document.msFullscreenElement;
   if(!isFs){
-    // Exited fullscreen — treat as exit attempt
     tgAlert();
     flashBanner('\u26A0\uFE0F Please do not exit full screen mode.', false);
   }
@@ -1493,9 +1472,24 @@ function setupFullscreen(){
 
 // ===================== EXIT DETECTION =====================
 function setupExit(){
-  document.addEventListener('visibilitychange',()=>{if(document.hidden)tgAlert();});
-  window.addEventListener('blur',()=>tgAlert());
-  window.addEventListener('beforeunload',e=>{if(!submitted){tgAlert();e.preventDefault();e.returnValue='';}});
+  document.addEventListener('visibilitychange',()=>{
+    if(document.hidden && !isInputFocused()) tgAlert();
+  });
+  window.addEventListener('blur',()=>{
+    setTimeout(function(){
+      if(!isInputFocused()) tgAlert();
+    }, 200);
+  });
+  window.addEventListener('beforeunload',e=>{
+    if(!submitted){tgAlert();e.preventDefault();e.returnValue='';}
+  });
+}
+
+function isInputFocused(){
+  var el = document.activeElement;
+  if(!el) return false;
+  var tag = el.tagName.toLowerCase();
+  return tag==='input' || tag==='textarea' || tag==='select' || el.isContentEditable;
 }
 
 function showTab(name,btn){
